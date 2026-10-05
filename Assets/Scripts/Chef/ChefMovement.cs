@@ -7,7 +7,14 @@ public class ChefMovement : NetworkBehaviour
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
 
-    void Update()
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void FixedUpdate()
     {
         if (!IsOwner) return;
 
@@ -29,10 +36,17 @@ public class ChefMovement : NetworkBehaviour
         if (moveDirection != Vector3.zero)
         {
             moveDirection.Normalize();
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+
+            // Usamos linearVelocity, manteniendo la velocidad en Y para no romper la gravedad
+            rb.linearVelocity = new Vector3(moveDirection.x * moveSpeed, rb.linearVelocity.y, moveDirection.z * moveSpeed);
 
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+        }
+        else
+        {
+            // Frenamos al jugador en X y Z cuando suelta las teclas
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
         }
     }
 }

@@ -9,6 +9,10 @@ public class ChefInteraction : NetworkBehaviour
     private AttachableBehaviour heldItem = null;
     private NetworkObject heldNetObj = null;
 
+    [Header("Interaction config")]
+    public float interactRadius = 1.5f;
+    public float maxInteractAngle = 60f;
+
     void Update()
     {
         if (!IsOwner) return;
@@ -22,61 +26,100 @@ public class ChefInteraction : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void InteractServerRpc(Vector3 handPos, Quaternion handRot)
     {
-        if (heldItem != null)
-        {
-            DropObject(handPos, handRot);
-        }
-        else
-        {
-            TryGrabObject();
-        }
-    }
-
-    private void TryGrabObject()
-    {
-        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 1.5f);
-
-        float minDistance = float.MaxValue;
-        AttachableBehaviour closestIngredient = null;
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, interactRadius);
+        Counter closestCounter = null;
+        AttachableBehaviour closestIngredientOnFloor = null;
+        float minCounterDist = float.MaxValue;
+        float minIngDist = float.MaxValue;
 
         foreach (var col in nearbyColliders)
         {
-            if (col.CompareTag("Ingredient"))
-            {
-                float distance = Vector3.Distance(transform.position, col.transform.position);
+            Vector3 directionToTarget = (col.transform.position - transform.position).normalized;
+            directionToTarget.y = 0;
 
-                if (distance < 1.5f && distance < minDistance)
+            float angle = Vector3.Angle(transform.forward, directionToTarget);
+            if (angle > maxInteractAngle) continue;
+
+            if (col.TryGetComponent<Counter>(out var counter))
+            {
+                float dist = Vector3.Distance(transform.position, col.transform.position);
+                if (dist < minCounterDist)
                 {
-                    minDistance = distance;
-                    closestIngredient = col.GetComponentInChildren<AttachableBehaviour>();
+                    minCounterDist = dist;
+                    closestCounter = counter;
+                }
+            }
+            else if (col.CompareTag("Ingredient"))
+            {
+                float dist = Vector3.Distance(transform.position, col.transform.position);
+                if (dist < minIngDist)
+                {
+                    minIngDist = dist;
+                    closestIngredientOnFloor = col.GetComponentInChildren<AttachableBehaviour>();
                 }
             }
         }
 
-        if (closestIngredient != null)
+        // --- LÓGICA DE INTERACCIÓN ---
+        if (heldItem != null)
         {
-            heldItem = closestIngredient;
-            heldNetObj = heldItem.GetComponentInParent<NetworkObject>();
-            heldItem.Attach(handNode);
+            if (closestCounter != null)
+            {
+                if (!closestCounter.HasItem())
+                {
+                    closestCounter.PlaceItem(heldNetObj);
+                    heldItem.Detach();
+
+                    heldItem = null;
+                    heldNetObj = null;
+                }
+                else
+                {
+                    Debug.Log("Table occupied");
+                }
+            }
+            else
+            {
+                DropObjectOnFloor(handPos, handRot);
+            }
+        }
+        else
+        {
+            if (closestCounter != null && closestCounter.HasItem())
+            {
+                NetworkObject itemOnCounter = closestCounter.GetItem();
+                closestCounter.ClearItem();
+
+                heldNetObj = itemOnCounter;
+                heldItem = itemOnCounter.GetComponentInChildren<AttachableBehaviour>();
+
+                if (heldNetObj.TryGetComponent<Rigidbody>(out var rb)) rb.isKinematic = false;
+
+                heldItem.Attach(handNode);
+            }
+            else if (closestIngredientOnFloor != null)
+            {
+                heldItem = closestIngredientOnFloor;
+                heldNetObj = heldItem.GetComponentInParent<NetworkObject>();
+                heldItem.Attach(handNode);
+            }
         }
     }
 
-    private void DropObject(Vector3 dropPos, Quaternion dropRot)
+    private void DropObjectOnFloor(Vector3 dropPos, Quaternion dropRot)
     {
-        if (heldItem != null)
+        if (heldNetObj.TryGetComponent<Rigidbody>(out var rb)) rb.isKinematic = false;
+
+        heldNetObj.transform.SetPositionAndRotation(dropPos, dropRot);
+        heldItem.transform.SetPositionAndRotation(dropPos, dropRot);
+
+        if (heldNetObj.TryGetComponent<NetworkTransform>(out var netTransform))
         {
-
-            heldNetObj.transform.SetPositionAndRotation(dropPos, dropRot);
-            heldItem.transform.SetPositionAndRotation(dropPos, dropRot);
-
-            if (heldNetObj.TryGetComponent<NetworkTransform>(out var netTransform))
-            {
-                netTransform.Teleport(dropPos, dropRot, heldNetObj.transform.localScale);
-            }
-
-            heldItem.Detach();
-            heldItem = null;
-            heldNetObj = null;
+            netTransform.Teleport(dropPos, dropRot, heldNetObj.transform.localScale);
         }
+
+        heldItem.Detach();
+        heldItem = null;
+        heldNetObj = null;
     }
 }
