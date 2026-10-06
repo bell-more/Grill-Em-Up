@@ -13,6 +13,10 @@ public class ChefInteraction : NetworkBehaviour
     public float interactRadius = 1.5f;
     public float maxInteractAngle = 60f;
 
+    [Header("Cutting config")]
+    public float chopInterval = 0.25f;
+    private float chopTimer = 0f;
+
     void Update()
     {
         if (!IsOwner) return;
@@ -21,6 +25,20 @@ public class ChefInteraction : NetworkBehaviour
         {
             InteractServerRpc(handNode.transform.position, handNode.transform.rotation);
         }
+
+        if (Keyboard.current != null && Keyboard.current.jKey.isPressed)
+        {
+            chopTimer += Time.deltaTime;
+            if (chopTimer >= chopInterval)
+            {
+                chopTimer = 0f;
+                TryChopServerRpc();
+            }
+        }
+        else
+        {
+            chopTimer = 0f;
+        }
     }
 
     [Rpc(SendTo.Server)]
@@ -28,8 +46,11 @@ public class ChefInteraction : NetworkBehaviour
     {
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, interactRadius);
         Counter closestCounter = null;
+        IngredientCrate closestCrate = null; 
         AttachableBehaviour closestIngredientOnFloor = null;
+
         float minCounterDist = float.MaxValue;
+        float minBoxDist = float.MaxValue;
         float minIngDist = float.MaxValue;
 
         foreach (var col in nearbyColliders)
@@ -43,24 +64,20 @@ public class ChefInteraction : NetworkBehaviour
             if (col.TryGetComponent<Counter>(out var counter))
             {
                 float dist = Vector3.Distance(transform.position, col.transform.position);
-                if (dist < minCounterDist)
-                {
-                    minCounterDist = dist;
-                    closestCounter = counter;
-                }
+                if (dist < minCounterDist) { minCounterDist = dist; closestCounter = counter; }
+            }
+            else if (col.TryGetComponent<IngredientCrate>(out var box))
+            {
+                float dist = Vector3.Distance(transform.position, col.transform.position);
+                if (dist < minBoxDist) { minBoxDist = dist; closestCrate = box; }
             }
             else if (col.CompareTag("Ingredient"))
             {
                 float dist = Vector3.Distance(transform.position, col.transform.position);
-                if (dist < minIngDist)
-                {
-                    minIngDist = dist;
-                    closestIngredientOnFloor = col.GetComponentInChildren<AttachableBehaviour>();
-                }
+                if (dist < minIngDist) { minIngDist = dist; closestIngredientOnFloor = col.GetComponentInChildren<AttachableBehaviour>(); }
             }
         }
 
-        // --- LÓGICA DE INTERACCIÓN ---
         if (heldItem != null)
         {
             if (closestCounter != null)
@@ -69,7 +86,6 @@ public class ChefInteraction : NetworkBehaviour
                 {
                     closestCounter.PlaceItem(heldNetObj);
                     heldItem.Detach();
-
                     heldItem = null;
                     heldNetObj = null;
                 }
@@ -85,7 +101,18 @@ public class ChefInteraction : NetworkBehaviour
         }
         else
         {
-            if (closestCounter != null && closestCounter.HasItem())
+            if (closestCrate != null)
+            {
+                NetworkObject spawnedItem = closestCrate.GrabIngredient(handNode.transform.position, handNode.transform.rotation);
+                if (spawnedItem != null)
+                {
+                    heldNetObj = spawnedItem;
+                    heldItem = spawnedItem.GetComponentInChildren<AttachableBehaviour>();
+                    heldItem.Attach(handNode);
+                }
+            }
+
+            else if (closestCounter != null && closestCounter.HasItem())
             {
                 NetworkObject itemOnCounter = closestCounter.GetItem();
                 closestCounter.ClearItem();
@@ -97,12 +124,45 @@ public class ChefInteraction : NetworkBehaviour
 
                 heldItem.Attach(handNode);
             }
+
             else if (closestIngredientOnFloor != null)
             {
                 heldItem = closestIngredientOnFloor;
                 heldNetObj = heldItem.GetComponentInParent<NetworkObject>();
                 heldItem.Attach(handNode);
             }
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    private void TryChopServerRpc()
+    {
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, interactRadius);
+        CuttingCounter closestCuttingCounter = null;
+        float minCounterDist = float.MaxValue;
+
+        foreach (var col in nearbyColliders)
+        {
+            Vector3 directionToTarget = (col.transform.position - transform.position).normalized;
+            directionToTarget.y = 0;
+
+            float angle = Vector3.Angle(transform.forward, directionToTarget);
+            if (angle > maxInteractAngle) continue;
+
+            if (col.TryGetComponent<CuttingCounter>(out var cuttingCounter))
+            {
+                float dist = Vector3.Distance(transform.position, col.transform.position);
+                if (dist < minCounterDist)
+                {
+                    minCounterDist = dist;
+                    closestCuttingCounter = cuttingCounter;
+                }
+            }
+        }
+
+        if (closestCuttingCounter != null && closestCuttingCounter.HasItem())
+        {
+            closestCuttingCounter.Chop(this);
         }
     }
 

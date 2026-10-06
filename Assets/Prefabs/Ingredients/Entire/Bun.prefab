@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 169534893428863526}
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
+  - component: {fileID: 2282369093401126297}
   m_Layer: 0
   m_Name: Bun
   m_TagString: Ingredient
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2098747130
+  GlobalObjectIdHash: 2827919871
   InScenePlacedSourceGlobalObjectIdHash: 2827919871
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -184,6 +185,34 @@ MonoBehaviour:
     EnableDelay: 0.1
     DisableDelay: 0
     Component: {fileID: 6269931587104892624}
+--- !u!114 &2282369093401126297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
+  ShowTopMostFoldoutHeaderGroup: 1
+  wholeMesh: {fileID: 4755037694683280153, guid: 1d554e0ecc95acc4fa6d6c473490cdb0, type: 3}
+  intermediateMesh: {fileID: -1947637187042669421, guid: 6d7d06a86243308439c5f4d3ec1ce752, type: 3}
+  choppedMesh: {fileID: -1947637187042669421, guid: 6d7d06a86243308439c5f4d3ec1ce752, type: 3}
+  chopsForIntermediate: 2
+  chopsForFinal: 3
+  currentStage:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentChops:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0

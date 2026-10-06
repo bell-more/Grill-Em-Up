@@ -37,7 +37,6 @@ public class ChefMovement : NetworkBehaviour
         {
             moveDirection.Normalize();
 
-            // Usamos linearVelocity, manteniendo la velocidad en Y para no romper la gravedad
             rb.linearVelocity = new Vector3(moveDirection.x * moveSpeed, rb.linearVelocity.y, moveDirection.z * moveSpeed);
 
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
@@ -45,7 +44,6 @@ public class ChefMovement : NetworkBehaviour
         }
         else
         {
-            // Frenamos al jugador en X y Z cuando suelta las teclas
             rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
         }
     }

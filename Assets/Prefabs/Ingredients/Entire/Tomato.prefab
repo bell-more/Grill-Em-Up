@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
   - component: {fileID: 3532002533186565069}
+  - component: {fileID: 1720595791487198849}
   m_Layer: 0
   m_Name: Tomato
   m_TagString: Ingredient
@@ -184,6 +185,34 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.26
   m_Center: {x: 0, y: 0.23, z: 0}
+--- !u!114 &1720595791487198849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
+  ShowTopMostFoldoutHeaderGroup: 1
+  wholeMesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
+  intermediateMesh: {fileID: 8183966572487801318, guid: 1ddb8737499c66445a874be131c85854, type: 3}
+  choppedMesh: {fileID: 5897541620420230933, guid: 3b3e19103c5622d428590380c3286a38, type: 3}
+  chopsForIntermediate: 2
+  chopsForFinal: 3
+  currentStage:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentChops:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0

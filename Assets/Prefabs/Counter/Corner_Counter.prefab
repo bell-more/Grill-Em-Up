@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1925929933
+  GlobalObjectIdHash: 3776054534
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Counter
   ShowTopMostFoldoutHeaderGroup: 1
-  placePoint: {fileID: 2745602139277511196}
+  holdPoint: {fileID: 2745602139277511196}
 --- !u!1 &4115772049046958357
 GameObject:
   m_ObjectHideFlags: 0

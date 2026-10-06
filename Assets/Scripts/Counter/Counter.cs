@@ -5,23 +5,23 @@ using UnityEngine;
 public class Counter : NetworkBehaviour
 {
     [Header("Settings")]
-    public Transform placePoint;
+    public Transform holdPoint;
 
-    private NetworkObject itemOnCounter = null;
+    protected NetworkObject heldItem = null;
 
     public bool HasItem()
     {
-        return itemOnCounter != null;
+        return heldItem != null;
     }
 
     public NetworkObject GetItem()
     {
-        return itemOnCounter;
+        return heldItem;
     }
 
-    public void PlaceItem(NetworkObject item)
+    public virtual void PlaceItem(NetworkObject item)
     {
-        itemOnCounter = item;
+        heldItem = item;
 
         if (item.TryGetComponent<Rigidbody>(out var rb))
         {
@@ -32,17 +32,17 @@ public class Counter : NetworkBehaviour
 
         if (item.TryGetComponent<NetworkTransform>(out var netTransform))
         {
-            netTransform.Teleport(placePoint.position, placePoint.rotation, item.transform.localScale);
+            netTransform.Teleport(holdPoint.position, holdPoint.rotation, item.transform.localScale);
         }
         else
         {
-            item.transform.position = placePoint.position;
-            item.transform.rotation = placePoint.rotation;
+            item.transform.position = holdPoint.position;
+            item.transform.rotation = holdPoint.rotation;
         }
     }
 
-    public void ClearItem()
+    public virtual void ClearItem()
     {
-        itemOnCounter = null;
+        heldItem = null;
     }
 }

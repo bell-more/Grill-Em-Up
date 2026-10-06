@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3717746772625346649}
+  - component: {fileID: 1021997891983524589}
   - component: {fileID: 169534893428863526}
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
-  - component: {fileID: 1021997891983524589}
-  - component: {fileID: 4999790850478958344}
+  - component: {fileID: 7497827244992801524}
+  - component: {fileID: 6104234849605637626}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: Ingredient
@@ -38,6 +39,33 @@ Transform:
   - {fileID: 4994370329891154214}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1021997891983524589
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  serializedVersion: 5
+  m_Mass: 20
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!114 &169534893428863526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 939473568
+  GlobalObjectIdHash: 3530155636
   InScenePlacedSourceGlobalObjectIdHash: 3602717520
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -136,34 +164,35 @@ MonoBehaviour:
     EnableDelay: 0.1
     DisableDelay: 0
     Component: {fileID: 6269931587104892624}
---- !u!54 &1021997891983524589
-Rigidbody:
+--- !u!114 &7497827244992801524
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448292569020906623}
-  serializedVersion: 5
-  m_Mass: 20
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &4999790850478958344
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
+  ShowTopMostFoldoutHeaderGroup: 1
+  wholeMesh: {fileID: 1106177787490279471, guid: a42e1207f336c464aa4d4072948aa6bc, type: 3}
+  intermediateMesh: {fileID: -8592017057765988957, guid: a7a477ce1447a544b9ca54cd6644e856, type: 3}
+  choppedMesh: {fileID: 3172193150111333715, guid: 536ba24d1df0d71459d2f48d411bd0c9, type: 3}
+  chopsForIntermediate: 2
+  chopsForFinal: 3
+  currentStage:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentChops:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+--- !u!65 &6104234849605637626
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,7 +211,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.58, y: 0.28, z: 0.46}
+  m_Size: {x: 0.64, y: 0.3, z: 0.43}
   m_Center: {x: -0.06, y: 0.16, z: 0}
 --- !u!1 &1890531462352268279
 GameObject:
@@ -197,7 +226,7 @@ GameObject:
   - component: {fileID: 6269931587104892624}
   m_Layer: 0
   m_Name: Deattached_Cheese
-  m_TagString: Untagged
+  m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -288,7 +317,7 @@ GameObject:
   - component: {fileID: 7129035672106760465}
   m_Layer: 0
   m_Name: Attached_Cheese
-  m_TagString: Untagged
+  m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -381,7 +410,7 @@ MonoBehaviour:
   AutoDetach: 3
   ComponentControllers:
   - name: Cheese (Component Controller)
-    AutoTrigger: 3
+    AutoTrigger: 255
     EnableOnAttach: 1
     ComponentController: {fileID: 5659860583197948448}
     HasInitialized: 1
