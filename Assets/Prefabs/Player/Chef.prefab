@@ -265,6 +265,7 @@ MonoBehaviour:
   handNode: {fileID: 7405780326601412668}
   interactRadius: 1.5
   maxInteractAngle: 60
+  chopInterval: 0.25
 --- !u!114 &4684296955237821182
 MonoBehaviour:
   m_ObjectHideFlags: 0

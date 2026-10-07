@@ -8,9 +8,13 @@ public class IngredientVisuals : NetworkBehaviour
     public Mesh intermediateMesh;
     public Mesh choppedMesh;
 
-    [Header("Cutting Configuration")]
-    public int chopsForIntermediate = 2; 
-    public int chopsForFinal = 3;       
+    [Header("Cutting config")]
+    public int chopsForIntermediate = 2;
+    public int chopsForFinal = 3;
+
+    [Header("Interaction settings")]
+    public bool canBeChopped = true;
+    public bool canBeFried = false;
     public NetworkVariable<int> currentStage = new NetworkVariable<int>(0);
 
     public NetworkVariable<int> currentChops = new NetworkVariable<int>(0);

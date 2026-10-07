@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
   - component: {fileID: 425325999768405765}
+  - component: {fileID: 7986239942793044419}
   m_Layer: 0
   m_Name: Burger
   m_TagString: Ingredient
@@ -77,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3576073820
+  GlobalObjectIdHash: 3360663130
   InScenePlacedSourceGlobalObjectIdHash: 3602717520
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -184,6 +185,36 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.52, y: 0.15, z: 0.48}
   m_Center: {x: 0, y: 0.08, z: 0}
+--- !u!114 &7986239942793044419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
+  ShowTopMostFoldoutHeaderGroup: 1
+  wholeMesh: {fileID: -1675931065404318426, guid: b403951427668114cb9220b7aef8bdf9, type: 3}
+  intermediateMesh: {fileID: 2720608395318045412, guid: 075eff1748b670e44af2c55acf84b7a3, type: 3}
+  choppedMesh: {fileID: -4774374933590487384, guid: 1484b0c52a862a043b39a1ec05a17f25, type: 3}
+  chopsForIntermediate: 2
+  chopsForFinal: 3
+  canBeChopped: 0
+  canBeFried: 1
+  currentStage:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentChops:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0

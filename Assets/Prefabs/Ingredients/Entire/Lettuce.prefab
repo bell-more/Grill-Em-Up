@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1823619566
+  GlobalObjectIdHash: 2240724053
   InScenePlacedSourceGlobalObjectIdHash: 3602717520
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -203,6 +203,8 @@ MonoBehaviour:
   choppedMesh: {fileID: 4387450455345236887, guid: fc105065d6e9a8e44ad24a1d87d624b9, type: 3}
   chopsForIntermediate: 2
   chopsForFinal: 3
+  canBeChopped: 1
+  canBeFried: 0
   currentStage:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0

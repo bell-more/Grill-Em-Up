@@ -25,6 +25,12 @@ public class CuttingCounter : Counter
 
         if (heldItem.TryGetComponent<IngredientVisuals>(out var visuals))
         {
+            if (!visuals.canBeChopped)
+            {
+                Debug.Log("This ingredient can't be chopped");
+                return;
+            }
+
             if (visuals.currentStage.Value >= 2) return;
 
             visuals.AddChop();

@@ -203,6 +203,8 @@ MonoBehaviour:
   choppedMesh: {fileID: -1947637187042669421, guid: 6d7d06a86243308439c5f4d3ec1ce752, type: 3}
   chopsForIntermediate: 2
   chopsForFinal: 3
+  canBeChopped: 0
+  canBeFried: 0
   currentStage:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0

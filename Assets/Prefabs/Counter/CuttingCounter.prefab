@@ -129,33 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CuttingCounter
   ShowTopMostFoldoutHeaderGroup: 1
-  holdPoint: {fileID: 2044205101509920650}
-  cuttingRecipes:
-  - ingredientName: Bun
-    intermediatePrefab: {fileID: 1448292569020906623, guid: 16f4714b86adadb4c9c43b0aabd2d7f6, type: 3}
-    intermediateChopsNeeded: 1
-    choppedPrefab: {fileID: 1448292569020906623, guid: 16f4714b86adadb4c9c43b0aabd2d7f6, type: 3}
-    totalChopsNeeded: 2
-  - ingredientName: Cheese
-    intermediatePrefab: {fileID: 1448292569020906623, guid: 75508571966c36b42872d7157a61ace7, type: 3}
-    intermediateChopsNeeded: 1
-    choppedPrefab: {fileID: 1448292569020906623, guid: 260467ec43a12b642ad0b6fe7bf4a5a5, type: 3}
-    totalChopsNeeded: 3
-  - ingredientName: Lettuce
-    intermediatePrefab: {fileID: 1448292569020906623, guid: b1e4abd7124d895418986588ef7c1a24, type: 3}
-    intermediateChopsNeeded: 1
-    choppedPrefab: {fileID: 1448292569020906623, guid: d120c483683ae73468fe20df319cc487, type: 3}
-    totalChopsNeeded: 3
-  - ingredientName: Onion
-    intermediatePrefab: {fileID: 1448292569020906623, guid: c793ade9c6170f24aa9da93433420439, type: 3}
-    intermediateChopsNeeded: 1
-    choppedPrefab: {fileID: 1448292569020906623, guid: fe776dcc89502c747829aeed54110ad9, type: 3}
-    totalChopsNeeded: 3
-  - ingredientName: Tomato
-    intermediatePrefab: {fileID: 1448292569020906623, guid: ca8a4ae7c2812fe41bafbba498f0d884, type: 3}
-    intermediateChopsNeeded: 1
-    choppedPrefab: {fileID: 1448292569020906623, guid: 53299ee30d969ed43a6a7570ec1e45b5, type: 3}
-    totalChopsNeeded: 3
+  placePoint: {fileID: 2044205101509920650}
   chopSound: {fileID: 8300000, guid: 5943fb9f98ae09f4d831d3e9929ee956, type: 3}
 --- !u!1 &6017462548470404045
 GameObject:
