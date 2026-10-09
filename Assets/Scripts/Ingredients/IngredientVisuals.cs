@@ -20,7 +20,7 @@ public class IngredientVisuals : NetworkBehaviour
     public NetworkVariable<int> currentChops = new NetworkVariable<int>(0);
 
     private MeshFilter[] meshFilters;
-
+    public NetworkVariable<float> currentCookingTime = new NetworkVariable<float>(0f);
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();

@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3717746772625346649}
   - component: {fileID: 1021997891983524589}
+  - component: {fileID: 7766921867702922510}
   - component: {fileID: 169534893428863526}
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
-  - component: {fileID: 5662924061034951625}
   - component: {fileID: 4113670837364827591}
+  - component: {fileID: -4286451594754911449}
   m_Layer: 0
   m_Name: Onion
   m_TagString: Ingredient
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1448292569020906623}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.422, y: 0.166, z: 3.596}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -66,6 +67,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &7766921867702922510
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.47, y: 0.38, z: 0.44}
+  m_Center: {x: 0, y: 0.24, z: 0}
 --- !u!114 &169534893428863526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,27 +186,6 @@ MonoBehaviour:
     EnableDelay: 0.1
     DisableDelay: 0
     Component: {fileID: 6269931587104892624}
---- !u!135 &5662924061034951625
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448292569020906623}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.27
-  m_Center: {x: 0, y: 0.28, z: 0}
 --- !u!114 &4113670837364827591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +204,8 @@ MonoBehaviour:
   choppedMesh: {fileID: -3992234213484251479, guid: 24381b455e53d3545bf60efa57d119b5, type: 3}
   chopsForIntermediate: 2
   chopsForFinal: 3
+  canBeChopped: 1
+  canBeFried: 0
   currentStage:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -213,6 +216,25 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  currentCookingTime:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+--- !u!114 &-4286451594754911449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65a7f02b576c5a4c8150e45e11115eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientThickness
+  thickness: 0.045
+  scaleOnPlate: {x: 1.3, y: 1.3, z: 1.3}
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1448292569020906623}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.4293036, y: 0, z: -5.1272197}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -175,12 +175,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   StartEnabled: 1
   Components:
-  - name: Attached_Carrot (Mesh Renderer)
+  - name: Attached_Bun (Mesh Renderer)
     InvertEnabled: 0
     EnableDelay: 0
     DisableDelay: 0
     Component: {fileID: 9102548997614460970}
-  - name: Deattached_Carrot (Mesh Renderer)
+  - name: Deattached_Bun (Mesh Renderer)
     InvertEnabled: 1
     EnableDelay: 0.1
     DisableDelay: 0
@@ -215,6 +215,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  currentCookingTime:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +232,7 @@ GameObject:
   - component: {fileID: 8325443283631197275}
   - component: {fileID: 6269931587104892624}
   m_Layer: 0
-  m_Name: Deattached_Carrot
+  m_Name: Deattached_Bun
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +323,7 @@ GameObject:
   - component: {fileID: 9102548997614460970}
   - component: {fileID: 7129035672106760465}
   m_Layer: 0
-  m_Name: Attached_Carrot
+  m_Name: Attached_Bun
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

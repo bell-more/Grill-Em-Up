@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 3717746772625346649}
   - component: {fileID: 1021997891983524589}
   - component: {fileID: 169534893428863526}
+  - component: {fileID: 1720595791487198849}
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
-  - component: {fileID: 3532002533186565069}
-  - component: {fileID: 1720595791487198849}
+  - component: {fileID: 874095409934961754}
+  - component: {fileID: 7283858332738780489}
   m_Layer: 0
   m_Name: Tomato
   m_TagString: Ingredient
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1448292569020906623}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3382173, y: 0.025319695, z: 3.596}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -93,6 +94,41 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1720595791487198849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
+  ShowTopMostFoldoutHeaderGroup: 1
+  wholeMesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
+  intermediateMesh: {fileID: 8183966572487801318, guid: 1ddb8737499c66445a874be131c85854, type: 3}
+  choppedMesh: {fileID: 5897541620420230933, guid: 3b3e19103c5622d428590380c3286a38, type: 3}
+  chopsForIntermediate: 2
+  chopsForFinal: 3
+  canBeChopped: 1
+  canBeFried: 0
+  currentStage:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentChops:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentCookingTime:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!114 &6429864307214106035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,18 +190,32 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   StartEnabled: 1
   Components:
-  - name: Attached_Carrot (Mesh Renderer)
+  - name: Attached_Tomato (Mesh Renderer)
     InvertEnabled: 0
     EnableDelay: 0
     DisableDelay: 0
     Component: {fileID: 9102548997614460970}
-  - name: Deattached_Carrot (Mesh Renderer)
+  - name: Deattached_Tomato (Mesh Renderer)
     InvertEnabled: 1
     EnableDelay: 0.1
     DisableDelay: 0
     Component: {fileID: 6269931587104892624}
---- !u!135 &3532002533186565069
-SphereCollider:
+--- !u!114 &874095409934961754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65a7f02b576c5a4c8150e45e11115eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientThickness
+  thickness: 0.045
+  scaleOnPlate: {x: 1.2, y: 1.2, z: 1.2}
+--- !u!65 &7283858332738780489
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -183,36 +233,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.26
-  m_Center: {x: 0, y: 0.23, z: 0}
---- !u!114 &1720595791487198849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448292569020906623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
-  ShowTopMostFoldoutHeaderGroup: 1
-  wholeMesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
-  intermediateMesh: {fileID: 8183966572487801318, guid: 1ddb8737499c66445a874be131c85854, type: 3}
-  choppedMesh: {fileID: 5897541620420230933, guid: 3b3e19103c5622d428590380c3286a38, type: 3}
-  chopsForIntermediate: 2
-  chopsForFinal: 3
-  currentStage:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
-  currentChops:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
+  m_Size: {x: 0.47, y: 0.41, z: 0.45}
+  m_Center: {x: 0, y: 0.24, z: 0}
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +247,7 @@ GameObject:
   - component: {fileID: 8325443283631197275}
   - component: {fileID: 6269931587104892624}
   m_Layer: 0
-  m_Name: Deattached_Carrot
+  m_Name: Deattached_Tomato
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,7 +338,7 @@ GameObject:
   - component: {fileID: 9102548997614460970}
   - component: {fileID: 7129035672106760465}
   m_Layer: 0
-  m_Name: Attached_Carrot
+  m_Name: Attached_Tomato
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

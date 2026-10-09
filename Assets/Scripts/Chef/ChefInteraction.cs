@@ -22,12 +22,17 @@ public class ChefInteraction : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame)
+        if (Keyboard.current != null &&
+            Keyboard.current.kKey.wasPressedThisFrame)
         {
-            InteractServerRpc(handNode.transform.position, handNode.transform.rotation);
+            InteractServerRpc(
+                handNode.transform.position,
+                handNode.transform.rotation
+            );
         }
 
-        if (Keyboard.current != null && Keyboard.current.jKey.isPressed)
+        if (Keyboard.current != null &&
+            Keyboard.current.jKey.isPressed)
         {
             chopTimer += Time.deltaTime;
 
@@ -47,15 +52,18 @@ public class ChefInteraction : NetworkBehaviour
     {
         if (netObj == null) return;
 
-        if (netObj.TryGetComponent<Rigidbody>(out var rb)) rb.isKinematic = held;
+        if (netObj.TryGetComponent<Rigidbody>(out var rb))
+            rb.isKinematic = held;
 
-        if (netObj.TryGetComponent<Collider>(out var col)) col.enabled = !held;
+        if (netObj.TryGetComponent<Collider>(out var col))
+            col.enabled = !held;
     }
 
     [Rpc(SendTo.Server)]
     private void InteractServerRpc(Vector3 handPos, Quaternion handRot)
     {
-        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, interactRadius);
+        Collider[] nearbyColliders =
+            Physics.OverlapSphere(transform.position, interactRadius);
 
         Counter closestCounter = null;
         IngredientCrate closestCrate = null;
@@ -67,7 +75,8 @@ public class ChefInteraction : NetworkBehaviour
 
         foreach (var col in nearbyColliders)
         {
-            Vector3 directionToTarget = (col.transform.position - transform.position).normalized;
+            Vector3 directionToTarget =
+                (col.transform.position - transform.position).normalized;
 
             directionToTarget.y = 0;
 
@@ -77,7 +86,8 @@ public class ChefInteraction : NetworkBehaviour
 
             if (col.TryGetComponent<Counter>(out var counter))
             {
-                float dist = Vector3.Distance(transform.position, col.transform.position);
+                float dist =
+                    Vector3.Distance(transform.position, col.transform.position);
 
                 if (dist < minCounterDist)
                 {
@@ -87,7 +97,8 @@ public class ChefInteraction : NetworkBehaviour
             }
             else if (col.TryGetComponent<IngredientCrate>(out var box))
             {
-                float dist = Vector3.Distance(transform.position, col.transform.position);
+                float dist =
+                    Vector3.Distance(transform.position, col.transform.position);
 
                 if (dist < minBoxDist)
                 {
@@ -97,12 +108,15 @@ public class ChefInteraction : NetworkBehaviour
             }
             else if (col.CompareTag("Ingredient"))
             {
-                float distance =Vector3.Distance(transform.position, col.transform.position);
+                float distance =
+                    Vector3.Distance(transform.position, col.transform.position);
 
                 if (distance < minIngDist)
                 {
                     minIngDist = distance;
-                    closestIngredientOnFloor = col.GetComponentInChildren<AttachableBehaviour>();
+
+                    closestIngredientOnFloor =
+                        col.GetComponentInChildren<AttachableBehaviour>();
                 }
             }
         }
@@ -128,7 +142,8 @@ public class ChefInteraction : NetworkBehaviour
                 }
                 else
                 {
-                    if (closestCounter.GetItem().TryGetComponent<FryingPan>(out var pan))
+                    if (closestCounter.GetItem()
+                        .TryGetComponent<FryingPan>(out var pan))
                     {
                         if (pan.TryAddIngredient(heldNetObj))
                         {
@@ -142,14 +157,21 @@ public class ChefInteraction : NetworkBehaviour
                             Debug.Log("The ingredient can't be fried");
                         }
                     }
-                    else if (closestCounter.GetItem().TryGetComponent<Plate>(out var plate))
+                    else if (closestCounter.GetItem()
+                        .TryGetComponent<Plate>(out var plate))
                     {
-                        if (plate.TryAddIngredient(heldNetObj))
+                        // Plate se encarga de cambiar la adjunción.
+                        // No llamar a heldItem.Detach() después.
+                        if (plate.TryAddIngredient(heldNetObj, heldItem))
                         {
-                            heldItem.Detach();
-
                             heldItem = null;
                             heldNetObj = null;
+                        }
+                        else
+                        {
+                            Debug.Log(
+                                "The ingredient can't be added to the plate"
+                            );
                         }
                     }
                     else
@@ -167,15 +189,21 @@ public class ChefInteraction : NetworkBehaviour
         {
             if (closestCrate != null)
             {
-                NetworkObject spawnedItem = closestCrate.GrabIngredient(handNode.transform.position, handNode.transform.rotation);
+                NetworkObject spawnedItem =
+                    closestCrate.GrabIngredient(
+                        handNode.transform.position,
+                        handNode.transform.rotation
+                    );
 
                 if (spawnedItem != null)
                 {
                     heldNetObj = spawnedItem;
 
-                    heldItem = spawnedItem.GetComponentInChildren<AttachableBehaviour>();
+                    heldItem =
+                        spawnedItem.GetComponentInChildren<AttachableBehaviour>();
 
-                    if (heldItem != null) heldItem.Attach(handNode);
+                    if (heldItem != null)
+                        heldItem.Attach(handNode);
 
                     SetHeldPhysics(heldNetObj, true);
                 }
@@ -184,15 +212,18 @@ public class ChefInteraction : NetworkBehaviour
             {
                 NetworkObject itemOnCounter = closestCounter.GetItem();
 
-                if (itemOnCounter.TryGetComponent<FryingPan>(out var pan) && pan.HasIngredient())
+                if (itemOnCounter.TryGetComponent<FryingPan>(out var pan) &&
+                    pan.HasIngredient())
                 {
                     NetworkObject extractedIngredient = pan.ExtractIngredient();
 
                     heldNetObj = extractedIngredient;
 
-                    heldItem = extractedIngredient.GetComponentInChildren<AttachableBehaviour>();
+                    heldItem =
+                        extractedIngredient.GetComponentInChildren<AttachableBehaviour>();
 
-                    if (heldItem != null) heldItem.Attach(handNode);
+                    if (heldItem != null)
+                        heldItem.Attach(handNode);
 
                     SetHeldPhysics(heldNetObj, true);
                 }
@@ -207,12 +238,14 @@ public class ChefInteraction : NetworkBehaviour
 
                     if (heldItem == null)
                     {
-                        heldItem = itemOnCounter.GetComponentInChildren<AttachableBehaviour>();
+                        heldItem =
+                            itemOnCounter.GetComponentInChildren<AttachableBehaviour>();
                     }
 
                     heldNetObj.TryRemoveParent();
 
-                    if (heldItem != null) heldItem.Attach(handNode);
+                    if (heldItem != null)
+                        heldItem.Attach(handNode);
 
                     SetHeldPhysics(heldNetObj, true);
                 }
@@ -221,7 +254,8 @@ public class ChefInteraction : NetworkBehaviour
             {
                 heldItem = closestIngredientOnFloor;
 
-                heldNetObj = heldItem.GetComponentInParent<NetworkObject>();
+                heldNetObj =
+                    heldItem.GetComponentInParent<NetworkObject>();
 
                 heldItem.Attach(handNode);
 
@@ -233,14 +267,16 @@ public class ChefInteraction : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void TryChopServerRpc()
     {
-        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, interactRadius);
+        Collider[] nearbyColliders =
+            Physics.OverlapSphere(transform.position, interactRadius);
 
         CuttingCounter closestCuttingCounter = null;
         float minCounterDist = float.MaxValue;
 
         foreach (var col in nearbyColliders)
         {
-            Vector3 directionToTarget = (col.transform.position - transform.position).normalized;
+            Vector3 directionToTarget =
+                (col.transform.position - transform.position).normalized;
 
             directionToTarget.y = 0;
 
@@ -250,7 +286,8 @@ public class ChefInteraction : NetworkBehaviour
 
             if (col.TryGetComponent<CuttingCounter>(out var cuttingCounter))
             {
-                float dist = Vector3.Distance(transform.position, col.transform.position);
+                float dist =
+                    Vector3.Distance(transform.position, col.transform.position);
 
                 if (dist < minCounterDist)
                 {
@@ -260,13 +297,16 @@ public class ChefInteraction : NetworkBehaviour
             }
         }
 
-        if (closestCuttingCounter != null && closestCuttingCounter.HasItem())
+        if (closestCuttingCounter != null &&
+            closestCuttingCounter.HasItem())
         {
             closestCuttingCounter.Chop(this);
         }
     }
 
-    private void DropObjectOnFloor(Vector3 dropPos, Quaternion dropRot)
+    private void DropObjectOnFloor(
+        Vector3 dropPos,
+        Quaternion dropRot)
     {
         heldNetObj.transform.SetPositionAndRotation(dropPos, dropRot);
 
@@ -274,7 +314,11 @@ public class ChefInteraction : NetworkBehaviour
 
         if (heldNetObj.TryGetComponent<NetworkTransform>(out var netTransform))
         {
-            netTransform.Teleport(dropPos, dropRot, heldNetObj.transform.localScale);
+            netTransform.Teleport(
+                dropPos,
+                dropRot,
+                heldNetObj.transform.localScale
+            );
         }
 
         heldItem.Detach();
