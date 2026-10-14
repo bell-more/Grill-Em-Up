@@ -14,9 +14,6 @@ public class LobbyUIController : MonoBehaviour
         if (SessionManager.Instance != null)
         {
             SessionManager.Instance.OnSessionChange += RefreshLobbyUI;
-
-            // ESTA ES LA LÍNEA QUE ARREGLA LA PANTALLA DE CARGA:
-            // Dibuja la lista al instante sin esperar el ping de la red
             RefreshLobbyUI();
         }
     }
@@ -42,7 +39,7 @@ public class LobbyUIController : MonoBehaviour
         var session = SessionManager.Instance?.GetSession();
         if (session == null) return;
 
-        roomCodeText.text = $"Código de Sala: {session.Code}";
+        roomCodeText.text = session.Code;
 
         foreach (Transform child in playerListContainer) Destroy(child.gameObject);
 
@@ -53,25 +50,17 @@ public class LobbyUIController : MonoBehaviour
             TMP_Text nameText = slot.GetComponentInChildren<TMP_Text>();
             Transform readyImageIcon = slot.transform.Find("ReadyImage");
 
-            if (player.Properties.TryGetValue("PlayerName", out var nameProp))
-                nameText.text = nameProp.Value;
+            if (player.Properties.TryGetValue("PlayerName", out var nameProp)) nameText.text = nameProp.Value;
 
             bool isReady = false;
             if (player.Properties.TryGetValue("PlayerReady", out var readyProp))
             {
-                // Usamos la validación robusta que evita errores si el valor es nulo
-                isReady = (readyProp.Value != null &&
-                          (readyProp.Value.Equals("True", System.StringComparison.OrdinalIgnoreCase) ||
-                           readyProp.Value == "1"));
+                isReady = (readyProp.Value != null && (readyProp.Value.Equals("True", System.StringComparison.OrdinalIgnoreCase) || readyProp.Value == "1"));
             }
 
-            // Actualiza tu propio toggle general
-            if (player.Id == session.CurrentPlayer.Id)
-                myReadyToggle.SetIsOnWithoutNotify(isReady);
+            if (player.Id == session.CurrentPlayer.Id) myReadyToggle.SetIsOnWithoutNotify(isReady);
 
-            // Prende o apaga la imagen de "Listo" en el prefab
-            if (readyImageIcon != null)
-                readyImageIcon.gameObject.SetActive(isReady);
+            if (readyImageIcon != null) readyImageIcon.gameObject.SetActive(isReady);
         }
     }
 }

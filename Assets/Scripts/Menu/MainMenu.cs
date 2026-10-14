@@ -8,12 +8,16 @@ public class MainMenu : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject loadingGamePanel; 
+    [SerializeField] private GameObject loadingGamePanel;
     [SerializeField] private GameObject joinGamePanel;
-    [SerializeField] private GameObject createGamePanel; 
+    [SerializeField] private GameObject createGamePanel;
     [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private GameObject connectionLostPanel;
 
-    [Header("UGS / Multiplayer Inputs")]
+    [Header("Error texts")]
+    [SerializeField]private TextMeshProUGUI errorText;
+
+    [Header("UGS")]
     [SerializeField] private TMP_InputField joinCodeInput;
 
     [Header("Audio")]
@@ -46,7 +50,7 @@ public class MainMenu : MonoBehaviour
         string joinCode = joinCodeInput != null ? joinCodeInput.text : "";
         string playerName = "";
 
-        if (!string.IsNullOrEmpty(joinCode) && SessionManager.Instance != null)
+        if (!string.IsNullOrEmpty(joinCode) && joinCode.Length == 6 && SessionManager.Instance != null)
         {
             if (joinGamePanel != null) joinGamePanel.SetActive(false);
             if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
@@ -57,8 +61,7 @@ public class MainMenu : MonoBehaviour
         else
         {
             Debug.LogWarning("Wrong code");
-            if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
-            if (joinGamePanel != null) joinGamePanel.SetActive(true);
+            JoinError();
         }
     }
 
@@ -75,7 +78,7 @@ public class MainMenu : MonoBehaviour
         TransitionTo(audioMixerSnapshot);
         Invoke(nameof(disableMainMenu), 1f);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
-        Invoke("LoadScene", 3f);
+        Invoke(nameof(LoadScene),3f);
     }
 
     void TransitionTo(AudioMixerSnapshot snap, float fade = 1f)
@@ -113,12 +116,54 @@ public class MainMenu : MonoBehaviour
         if (infoPanel != null) infoPanel.SetActive(true);
     }
 
-    public void ClosePanel()
+    public void JoinError()
     {
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+        if (joinGamePanel != null) joinGamePanel.SetActive(true);
+        if (errorText != null) errorText.gameObject.SetActive(true);
+
+        if (UnityEngine.EventSystems.EventSystem.current != null)
+        {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+        }
+
+        CancelInvoke(nameof(HideErrorText));
+        Invoke(nameof(HideErrorText), 3f);
+    }
+
+    public void ShowLoadingScreen()
+    {
+        if (createGamePanel != null) createGamePanel.SetActive(false); 
+        if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
+    }
+
+    private void HideErrorText()
+    {
+        if (errorText != null) errorText.gameObject.SetActive(false); ;
+    }
+
+    public async void ClosePanel()
+    {
+        if (SessionManager.Instance != null && SessionManager.Instance.GetSession() != null)
+        {
+            await SessionManager.Instance.LeaveSessionAsync();
+        }
+
         if (infoPanel != null) infoPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (joinGamePanel != null) joinGamePanel.SetActive(false);
         if (createGamePanel != null) createGamePanel.SetActive(false);
+        if (connectionLostPanel != null) connectionLostPanel.SetActive(false);
+        if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+    }
+
+    public void ConnectionLostPanel()
+    {
+        if (createGamePanel != null) createGamePanel.SetActive(false);
+        if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+        if (connectionLostPanel != null) connectionLostPanel.SetActive(true);
     }
 }

@@ -18,7 +18,7 @@ public class SessionManager : MonoBehaviour
 
     public event Action OnSessionChange;
 
-    private const string GAME_SCENE = "GameScene";
+    private const string GAME_SCENE = "2.LevelSelector";
     private const string KEY_MATCH_TYPE = "MatchType";
     private const string KEY_PLAYER_NAME = "PlayerName";
     private const string KEY_PLAYER_READY = "PlayerReady";
@@ -123,7 +123,7 @@ public class SessionManager : MonoBehaviour
             SuscribeEvents();
 
             int playerNumber = session.Players.Count;
-            playerName = "Chef "+playerNumber;
+            playerName = "Chef " + playerNumber;
 
             session.CurrentPlayer.SetProperty(KEY_PLAYER_NAME, new PlayerProperty(playerName, VisibilityPropertyOptions.Public));
             await session.SaveCurrentPlayerDataAsync();
@@ -132,7 +132,7 @@ public class SessionManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogException(e);
+            MainMenuRef?.JoinError();
         }
     }
 
@@ -151,6 +151,7 @@ public class SessionManager : MonoBehaviour
         if (session != null)
         {
             session.Changed += Session_Changed;
+            session.Deleted += Session_Deleted; 
         }
     }
 
@@ -159,6 +160,7 @@ public class SessionManager : MonoBehaviour
         if (session != null)
         {
             session.Changed -= Session_Changed;
+            session.Deleted -= Session_Deleted;
         }
     }
 
@@ -166,7 +168,7 @@ public class SessionManager : MonoBehaviour
     {
         OnSessionChange?.Invoke();
 
-        if (session == null || !session.IsHost || isStartingGame) return;
+        if (session == null) return;
 
         int readyCount = 0;
         int totalPlayers = session.Players.Count;
@@ -181,21 +183,71 @@ public class SessionManager : MonoBehaviour
 
         if (readyCount >= totalPlayers && totalPlayers > 0)
         {
-            isStartingGame = true;
+            MainMenuRef?.ShowLoadingScreen();
 
+            if (session.IsHost && !isStartingGame)
+            {
+                isStartingGame = true;
+
+                try
+                {
+                    var hostSession = session.AsHost();
+                    hostSession.IsLocked = true;
+                    await hostSession.SavePropertiesAsync();
+
+                    await hostSession.Network.StartRelayNetworkAsync(new RelayNetworkOptions());
+                    NetManager.SceneManager.LoadScene(GAME_SCENE, LoadSceneMode.Single);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                    isStartingGame = false;
+                }
+            }
+        }
+    }
+
+    private void Session_Deleted()
+    {
+        session = null;
+        isStartingGame = false;
+
+        if (NetManager != null && NetManager.IsListening)
+        {
+            NetManager.Shutdown();
+        }
+
+        MainMenuRef?.ConnectionLostPanel();
+    }
+    public async Task LeaveSessionAsync()
+    {
+        if (session != null)
+        {
             try
             {
-                var hostSession = session.AsHost();
-                hostSession.IsLocked = true;
-                await hostSession.SavePropertiesAsync();
+                if (session.IsHost)
+                {
+                    var hostSession = session.AsHost();
+                    if (hostSession != null) await hostSession.DeleteAsync();
+                }
+                else
+                {
+                    await session.LeaveAsync();
+                }
+                
+                session = null;
+                isStartingGame = false;
 
-                await hostSession.Network.StartRelayNetworkAsync(new RelayNetworkOptions());
-                NetManager.SceneManager.LoadScene(GAME_SCENE, LoadSceneMode.Single);
+                if (NetManager != null && NetManager.IsListening)
+                {
+                    NetManager.Shutdown();
+                }
+
+                Debug.Log("Disconnected");
             }
             catch (Exception e)
             {
                 Debug.LogException(e);
-                isStartingGame = false;
             }
         }
     }

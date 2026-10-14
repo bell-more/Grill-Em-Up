@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-
+    [Header("Panels")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject settingsPanel;
 
@@ -31,32 +31,16 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    //obtener panel de pausa
     public GameObject GetPausePanel()
     {
         return pausePanel;
     }
 
-    //EMPEZAR JUEGO
-    public void Play()
-    {
-        Invoke("LoadScene", 1);
-    }
-
-    //CARGAR ESCENA
-    public void LoadScene()
-    {
-        SceneManager.LoadSceneAsync(1);
-
-    }
-
-    //SALIR DEL JUEGO
     public void Quit()
     {
         Application.Quit();
     }
 
-    //SALIR DE PAUSA
     public void NoPause()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -65,7 +49,6 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    //PAUSA
     public void PauseMenu()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -84,15 +67,11 @@ public class MenuManager : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-
-    //NEXT LEVEL
     public void NextLevel()
     {
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync((SceneManager.GetActiveScene().buildIndex)+1);
     }
-
-    //MAIN
     public void MainMenu()
     {
         Time.timeScale = 1;
