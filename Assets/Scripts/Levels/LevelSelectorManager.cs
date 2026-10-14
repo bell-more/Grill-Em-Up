@@ -26,20 +26,20 @@ public class LevelSelectorManager : MonoBehaviour
 
     public void LoadLevel1()
     {
-        LoadNetworkScene("Level1"); 
+        LoadNetworkScene("3.Level1"); 
     }
 
     public void LoadLevel2()
     {
-        LoadNetworkScene("Level2"); 
+        LoadNetworkScene("4.Level2"); 
     }
 
     public void LoadLevel3()
     {
-        LoadNetworkScene("Level3"); 
+        LoadNetworkScene("5.Level3"); 
     }
 
-    //centralizar el cambio de escena por red
+    //centraliza el cambio de escena por red
     private void LoadNetworkScene(string sceneName)
     {
         if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)

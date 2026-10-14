@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SimpleBurgerRecipe
   m_EditorClassIdentifier: Assembly-CSharp::Recipe
   recipeName: SimpleBurgerRecipe
-  recipeIcon: {fileID: 21300000, guid: 9b6af29e7e8984e43a72ad6bb18e13ce, type: 3}
+  recipeIcon: {fileID: 21300000, guid: 9317b65a1eeb7184b831a733f6155a7f, type: 3}
   requiredIngredients:
   - TopBun
   - Burger

@@ -130,7 +130,7 @@ public class SessionManager : MonoBehaviour
 
             MainMenuRef?.ShowLobbyPanel();
         }
-        catch (Exception e)
+        catch
         {
             MainMenuRef?.JoinError();
         }

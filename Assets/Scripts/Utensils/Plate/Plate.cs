@@ -75,6 +75,22 @@ public class Plate : NetworkBehaviour
             return false;
         }
 
+        if (ingredient.TryGetComponent<IngredientVisuals>(out var ingredientVisuals))
+        {
+            string ingredientName = ingredient.name.ToLower();
+
+            bool requiresChopping =
+                ingredientName.Contains("tomato") ||
+                ingredientName.Contains("cheese") ||
+                ingredientName.Contains("lettuce") ||
+                ingredientName.Contains("onion");
+
+            if (requiresChopping && ingredientVisuals.currentStage.Value != 2)
+            {
+                return false;
+            }
+        }
+
         bool isBun = ingredient.name.Contains("Bun");
 
         if (isBun && bottomBunInstance == null)
@@ -288,4 +304,6 @@ public class Plate : NetworkBehaviour
         NetworkObject plateNetObj = GetComponent<NetworkObject>();
         if (plateNetObj != null && plateNetObj.IsSpawned) plateNetObj.Despawn(true);
     }
+
+
 }

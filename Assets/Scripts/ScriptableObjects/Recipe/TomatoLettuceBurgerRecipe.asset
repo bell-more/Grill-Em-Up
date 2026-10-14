@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TomatoLettuceBurgerRecipe
   m_EditorClassIdentifier: Assembly-CSharp::Recipe
   recipeName: TomatoLettuceBurger
-  recipeIcon: {fileID: 21300000, guid: 0b9e61aeb0415d44595053f1e5760f9c, type: 3}
+  recipeIcon: {fileID: 21300000, guid: a5b071b5afa77434081fdcd70b5a9f05, type: 3}
   requiredIngredients:
   - TopBun
   - Tomato

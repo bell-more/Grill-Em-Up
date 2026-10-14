@@ -7,6 +7,9 @@ public class DeliveryTable : Counter
 {
     [SerializeField] private OrderManager orderManager;
 
+    [Header("Plate holder")]
+    [SerializeField] private PlateHolder plateHolder;
+
     public override bool AcceptsItem(NetworkObject item)
     {
         return item.TryGetComponent<Plate>(out _);
@@ -25,7 +28,6 @@ public class DeliveryTable : Counter
     {
         if (heldItem != null && heldItem.TryGetComponent<Plate>(out var plateScript))
         {
-            // 1. Recopilamos los nombres de todos los ingredientes en el plato
             List<string> plateIngredients = new List<string>();
 
             GameObject bottom = plateScript.GetBottomBun();
@@ -44,12 +46,7 @@ public class DeliveryTable : Counter
             {
                 orderManager.SubmitOrder(plateIngredients);
             }
-            else
-            {
-                Debug.LogWarning("No se encontró el OrderManager en la escena.");
-            }
 
-            // 3. Esperamos 1 segundo y limpiamos la mesa (mantiene el feedback visual)
             StartCoroutine(DestroyPlateAfterDelay(plateScript, 1f));
         }
     }
@@ -60,8 +57,16 @@ public class DeliveryTable : Counter
 
         if (plateScript != null)
         {
+            NetworkObject plateNetworkObject = plateScript.GetComponent<NetworkObject>();
+
+            if (plateHolder != null)
+            {
+                plateHolder.ReturnPlate(plateNetworkObject);
+            }
+
             plateScript.ClearAndDestroyPlate();
         }
+
         ClearItem();
     }
 

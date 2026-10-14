@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class LobbyUIController : MonoBehaviour
 {
-    public TMP_Text roomCodeText;
-    public GameObject playerSlotPrefab;
-    public Transform playerListContainer;
-    public Toggle myReadyToggle;
+    [SerializeField] private TMP_Text roomCodeText;
+    [SerializeField] private GameObject playerSlotPrefab;
+    [SerializeField] private Transform playerListContainer;
+    [SerializeField] private Toggle myReadyToggle;
 
     private void OnEnable()
     {

@@ -153,12 +153,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   StartEnabled: 1
   Components:
-  - name: Attached_Carrot (Mesh Renderer)
+  - name: Attached_Lettuce (Mesh Renderer)
     InvertEnabled: 0
     EnableDelay: 0
     DisableDelay: 0
     Component: {fileID: 9102548997614460970}
-  - name: Deattached_Carrot (Mesh Renderer)
+  - name: Deattached_Lettuce (Mesh Renderer)
     InvertEnabled: 1
     EnableDelay: 0.1
     DisableDelay: 0
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 8325443283631197275}
   - component: {fileID: 6269931587104892624}
   m_Layer: 0
-  m_Name: Deattached_Carrot
+  m_Name: Deattached_Lettuce
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -250,7 +250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1724080987372072942, guid: da653b836c9a1674ba7fe24449db54fb, type: 3}
+  - {fileID: 2100000, guid: ea15c6a5611475540a69d8f2e48c6e6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 9102548997614460970}
   - component: {fileID: 7129035672106760465}
   m_Layer: 0
-  m_Name: Attached_Carrot
+  m_Name: Attached_Lettuce
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +341,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1724080987372072942, guid: da653b836c9a1674ba7fe24449db54fb, type: 3}
+  - {fileID: 2100000, guid: ea15c6a5611475540a69d8f2e48c6e6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

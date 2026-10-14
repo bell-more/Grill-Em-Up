@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3032122732
+  GlobalObjectIdHash: 4009998694
   InScenePlacedSourceGlobalObjectIdHash: 3602717520
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -250,7 +250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1724080987372072942, guid: da653b836c9a1674ba7fe24449db54fb, type: 3}
+  - {fileID: 2100000, guid: ea15c6a5611475540a69d8f2e48c6e6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -341,7 +341,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1724080987372072942, guid: da653b836c9a1674ba7fe24449db54fb, type: 3}
+  - {fileID: 2100000, guid: ea15c6a5611475540a69d8f2e48c6e6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

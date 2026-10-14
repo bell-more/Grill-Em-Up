@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryTable
   ShowTopMostFoldoutHeaderGroup: 1
   placePoint: {fileID: 2044205101509920650}
+  orderManager: {fileID: 0}
 --- !u!1 &6017462548470404045
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1724080987372072942, guid: aed620d3d89aaae4096110130fdabdec, type: 3}
+  - {fileID: 2100000, guid: ea15c6a5611475540a69d8f2e48c6e6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CheeseBurgerRecipe
   m_EditorClassIdentifier: Assembly-CSharp::Recipe
   recipeName: CheeseBurger
-  recipeIcon: {fileID: 21300000, guid: 4f64081c8c0a5fb40a1392b9fc5d9460, type: 3}
+  recipeIcon: {fileID: 21300000, guid: fa8817f8ba7b414489dadac3d44a41c5, type: 3}
   requiredIngredients:
   - TopBun
   - Cheese

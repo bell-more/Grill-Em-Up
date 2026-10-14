@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,6 +13,11 @@ public class OrderManager : NetworkBehaviour
     public int maxActiveOrders = 5;
     public float orderPatienceTime = 50f;
     public Recipe[] availableRecipes;
+
+    [Header("Coins")]
+    public int coinsPerSuccess = 50;
+    public int coinsPenaltyWrong = 15;
+    public int coinsPenaltyExpired = 20;
 
     [Header("UI References")]
     public Transform ordersContainer;
@@ -59,6 +65,8 @@ public class OrderManager : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        if (LevelTimer.Instance != null && !LevelTimer.Instance.isPlaying.Value) return;
+
         if (activeOrders.Count < maxActiveOrders)
         {
             spawnTimer -= Time.deltaTime;
@@ -78,6 +86,8 @@ public class OrderManager : NetworkBehaviour
                 Debug.Log("missed order");
                 PlayResolutionSoundClientRpc(1);
 
+                if (CoinManager.Instance != null) CoinManager.Instance.RemoveCoins(coinsPenaltyExpired);
+
                 activeOrders.RemoveAt(i);
                 orderTimers.RemoveAt(i);
             }
@@ -88,7 +98,7 @@ public class OrderManager : NetworkBehaviour
     {
         if (availableRecipes == null || availableRecipes.Length == 0) return;
 
-        int randomRecipeIndex = Random.Range(0, availableRecipes.Length);
+        int randomRecipeIndex = UnityEngine.Random.Range(0, availableRecipes.Length);
         activeOrders.Add(randomRecipeIndex);
         orderTimers.Add(orderPatienceTime);
     }
@@ -163,6 +173,8 @@ public class OrderManager : NetworkBehaviour
                 Debug.Log("Completed order: " + recipe.recipeName);
                 PlayResolutionSoundClientRpc(0);
 
+                if (CoinManager.Instance != null) CoinManager.Instance.AddCoins(coinsPerSuccess);
+
                 activeOrders.RemoveAt(i);
                 if (i < orderTimers.Count) orderTimers.RemoveAt(i);
 
@@ -172,6 +184,8 @@ public class OrderManager : NetworkBehaviour
 
         Debug.Log("Wrong order");
         PlayResolutionSoundClientRpc(2);
+
+        if (CoinManager.Instance != null) CoinManager.Instance.RemoveCoins(coinsPenaltyWrong);
     }
 
     private bool AreIngredientsMatching(List<string> submitted, List<string> required)
