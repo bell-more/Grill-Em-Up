@@ -8,27 +8,27 @@ public class OrderManager : NetworkBehaviour
     public NetworkList<int> activeOrders;
 
     [Header("Orders Config")]
-    public float initialSpawnDelay = 5f;
-    public float timeBetweenOrders = 10f;
-    public int maxActiveOrders = 5;
-    public float orderPatienceTime = 50f;
-    public Recipe[] availableRecipes;
+    [SerializeField] private float initialSpawnDelay = 5f;
+    [SerializeField] private float timeBetweenOrders = 10f;
+    [SerializeField] private int maxActiveOrders = 5;
+    [SerializeField] private float orderPatienceTime = 50f;
+    [SerializeField] private Recipe[] availableRecipes;
 
     [Header("Coins")]
-    public int coinsPerSuccess = 50;
-    public int coinsPenaltyWrong = 15;
-    public int coinsPenaltyExpired = 20;
+    [SerializeField] private int coinsPerSuccess = 50;
+    [SerializeField] private int coinsPenaltyWrong = 15;
+    [SerializeField] private int coinsPenaltyExpired = 20;
 
     [Header("UI References")]
-    public Transform ordersContainer;
-    public GameObject orderTicketPrefab;
+    [SerializeField] private Transform ordersContainer;
+    [SerializeField] private GameObject orderTicketPrefab;
 
     [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip newOrderSound;
-    public AudioClip successSound;
-    public AudioClip orderExpiredSound;
-    public AudioClip wrongOrderSound;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip newOrderSound;
+    [SerializeField] private AudioClip successSound;
+    [SerializeField] private AudioClip orderExpiredSound;
+    [SerializeField] private AudioClip wrongOrderSound;
 
     private float spawnTimer;
 
@@ -84,6 +84,7 @@ public class OrderManager : NetworkBehaviour
             if (orderTimers[i] <= 0f)
             {
                 Debug.Log("missed order");
+                LevelProgressManager.RegisterMissedOrder();
                 PlayResolutionSoundClientRpc(1);
 
                 if (CoinManager.Instance != null) CoinManager.Instance.RemoveCoins(coinsPenaltyExpired);
@@ -173,10 +174,15 @@ public class OrderManager : NetworkBehaviour
                 Debug.Log("Completed order: " + recipe.recipeName);
                 PlayResolutionSoundClientRpc(0);
 
-                if (CoinManager.Instance != null) CoinManager.Instance.AddCoins(coinsPerSuccess);
+                if (CoinManager.Instance != null)
+                    CoinManager.Instance.AddCoins(coinsPerSuccess);
 
                 activeOrders.RemoveAt(i);
-                if (i < orderTimers.Count) orderTimers.RemoveAt(i);
+
+                if (i < orderTimers.Count)
+                    orderTimers.RemoveAt(i);
+
+                LevelProgressManager.RegisterSuccessfulOrder();
 
                 return;
             }
