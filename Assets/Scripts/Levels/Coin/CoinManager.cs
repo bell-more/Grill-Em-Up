@@ -18,6 +18,7 @@ public class CoinManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
+    public int CurrentCoins => totalCoins.Value;
 
     private void Awake()
     {

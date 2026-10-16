@@ -29,11 +29,16 @@ public class MainMenu : MonoBehaviour
         {
             SessionManager.Instance.MainMenuRef = this;
         }
+        if (SessionManager.showConnectionLostOnLoad)
+        {
+            SessionManager.showConnectionLostOnLoad = false;
+            ConnectionLostPanel();
+        }
     }
 
     public async void CreateGame()
     {
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        if (mainMenuPanel!= null) mainMenuPanel.SetActive(false);
         if (joinGamePanel != null) joinGamePanel.SetActive(false);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
 
@@ -67,7 +72,7 @@ public class MainMenu : MonoBehaviour
 
     public void ShowLobbyPanel()
     {
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
         if (joinGamePanel != null) joinGamePanel.SetActive(false);
         if (createGamePanel != null) createGamePanel.SetActive(true);
@@ -134,6 +139,8 @@ public class MainMenu : MonoBehaviour
 
     public void ShowLoadingScreen()
     {
+
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (createGamePanel != null) createGamePanel.SetActive(false); 
         if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
     }

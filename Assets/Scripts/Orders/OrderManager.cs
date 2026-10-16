@@ -84,6 +84,7 @@ public class OrderManager : NetworkBehaviour
             if (orderTimers[i] <= 0f)
             {
                 Debug.Log("missed order");
+                LevelProgressManager.RegisterMissedOrder();
                 PlayResolutionSoundClientRpc(1);
 
                 if (CoinManager.Instance != null) CoinManager.Instance.RemoveCoins(coinsPenaltyExpired);
@@ -174,6 +175,7 @@ public class OrderManager : NetworkBehaviour
                 PlayResolutionSoundClientRpc(0);
 
                 if (CoinManager.Instance != null) CoinManager.Instance.AddCoins(coinsPerSuccess);
+                LevelProgressManager.RegisterSuccessfulOrder();
 
                 activeOrders.RemoveAt(i);
                 if (i < orderTimers.Count) orderTimers.RemoveAt(i);

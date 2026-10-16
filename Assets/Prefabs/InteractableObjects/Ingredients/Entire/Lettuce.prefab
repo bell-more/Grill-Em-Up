@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3717746772625346649}
   - component: {fileID: 1021997891983524589}
+  - component: {fileID: 2681533378131233860}
   - component: {fileID: 169534893428863526}
-  - component: {fileID: 1720595791487198849}
   - component: {fileID: 6429864307214106035}
   - component: {fileID: 5659860583197948448}
-  - component: {fileID: 874095409934961754}
-  - component: {fileID: 7283858332738780489}
+  - component: {fileID: 7497827244992801524}
+  - component: {fileID: -8184905692693244689}
   m_Layer: 0
-  m_Name: Tomato
+  m_Name: Lettuce
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &2681533378131233860
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.56, y: 0.41, z: 0.56}
+  m_Center: {x: 0, y: 0.24, z: 0}
 --- !u!114 &169534893428863526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1788766322
+  GlobalObjectIdHash: 2240724053
   InScenePlacedSourceGlobalObjectIdHash: 3602717520
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -94,41 +115,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1720595791487198849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448292569020906623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
-  ShowTopMostFoldoutHeaderGroup: 1
-  wholeMesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
-  intermediateMesh: {fileID: 8183966572487801318, guid: 1ddb8737499c66445a874be131c85854, type: 3}
-  choppedMesh: {fileID: 5897541620420230933, guid: 3b3e19103c5622d428590380c3286a38, type: 3}
-  chopsForIntermediate: 2
-  chopsForFinal: 3
-  canBeChopped: 1
-  canBeFried: 0
-  currentStage:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
-  currentChops:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
-  currentCookingTime:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
 --- !u!114 &6429864307214106035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,17 +176,52 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   StartEnabled: 1
   Components:
-  - name: Attached_Tomato (Mesh Renderer)
+  - name: Attached_Lettuce (Mesh Renderer)
     InvertEnabled: 0
     EnableDelay: 0
     DisableDelay: 0
     Component: {fileID: 9102548997614460970}
-  - name: Deattached_Tomato (Mesh Renderer)
+  - name: Deattached_Lettuce (Mesh Renderer)
     InvertEnabled: 1
     EnableDelay: 0.1
     DisableDelay: 0
     Component: {fileID: 6269931587104892624}
---- !u!114 &874095409934961754
+--- !u!114 &7497827244992801524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051baa25eb26664c9e8f8b778f89d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
+  ShowTopMostFoldoutHeaderGroup: 1
+  wholeMesh: {fileID: 599530405527473323, guid: d67ea1e9afcced54c89e91860ff0b7a0, type: 3}
+  intermediateMesh: {fileID: 287175947394519146, guid: 90d93f784e132894fb5295dec88dc752, type: 3}
+  choppedMesh: {fileID: 4387450455345236887, guid: fc105065d6e9a8e44ad24a1d87d624b9, type: 3}
+  chopsForIntermediate: 2
+  chopsForFinal: 3
+  canBeChopped: 1
+  canBeFried: 0
+  currentStage:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentChops:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  currentCookingTime:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+--- !u!114 &-8184905692693244689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,28 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientThickness
   thickness: 0.045
-  scaleOnPlate: {x: 1.2, y: 1.2, z: 1.2}
---- !u!65 &7283858332738780489
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448292569020906623}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.47, y: 0.41, z: 0.45}
-  m_Center: {x: 0, y: 0.24, z: 0}
+  scaleOnPlate: {x: 1.3, y: 1.3, z: 1.3}
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 8325443283631197275}
   - component: {fileID: 6269931587104892624}
   m_Layer: 0
-  m_Name: Deattached_Tomato
+  m_Name: Deattached_Lettuce
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,7 +263,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 70, y: 70, z: 70}
+  m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
@@ -275,7 +275,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
-  m_Mesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
+  m_Mesh: {fileID: 599530405527473323, guid: d67ea1e9afcced54c89e91860ff0b7a0, type: 3}
 --- !u!23 &6269931587104892624
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 9102548997614460970}
   - component: {fileID: 7129035672106760465}
   m_Layer: 0
-  m_Name: Attached_Tomato
+  m_Name: Attached_Lettuce
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -354,7 +354,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 70, y: 70, z: 70}
+  m_LocalScale: {x: 80, y: 80, z: 80}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
@@ -366,7 +366,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
-  m_Mesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
+  m_Mesh: {fileID: 599530405527473323, guid: d67ea1e9afcced54c89e91860ff0b7a0, type: 3}
 --- !u!23 &9102548997614460970
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -431,7 +431,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   AutoDetach: 3
   ComponentControllers:
-  - name: Tomato (Component Controller)
+  - name: Lettuce (Component Controller)
     AutoTrigger: 255
     EnableOnAttach: 1
     ComponentController: {fileID: 5659860583197948448}

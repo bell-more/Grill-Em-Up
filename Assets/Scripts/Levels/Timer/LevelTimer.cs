@@ -9,13 +9,21 @@ public class LevelTimer : NetworkBehaviour
     public static LevelTimer Instance { get; private set; }
 
     [Header("UI")]
-    public TMP_Text timerText;          
-    public TMP_Text countdownText;    
-    public TMP_Text waitingText;         
+    public TMP_Text timerText;
+    public TMP_Text countdownText;
+    public TMP_Text waitingText;
 
     [Header("Level config")]
     public float durationInMinutes = 4f;
     public float countdownDuration = 3f;
+
+    private bool IsLevelWithoutTimer => SceneManager.GetActiveScene().name == "3.Level1";
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip beepSound;
+    [SerializeField] private AudioClip startSound;
+    private int lastBeepSecond = -1;
 
     // variables sincronizadas
     private NetworkVariable<float> timeRemaining = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -84,7 +92,7 @@ public class LevelTimer : NetworkBehaviour
                     }
                 }
             }
-            else
+            else if (!IsLevelWithoutTimer)
             {
                 if (timeRemaining.Value > 0)
                 {
@@ -105,9 +113,14 @@ public class LevelTimer : NetworkBehaviour
     {
         if (timerText != null)
         {
-            int minutes = Mathf.FloorToInt(timeRemaining.Value / 60);
-            int seconds = Mathf.FloorToInt(timeRemaining.Value % 60);
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timerText.gameObject.SetActive(!IsLevelWithoutTimer);
+
+            if (!IsLevelWithoutTimer)
+            {
+                int minutes = Mathf.FloorToInt(timeRemaining.Value / 60);
+                int seconds = Mathf.FloorToInt(timeRemaining.Value % 60);
+                timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
         }
 
         if (!isPlaying.Value)
@@ -127,6 +140,14 @@ public class LevelTimer : NetworkBehaviour
                     if (ceilTime > 0)
                     {
                         countdownText.text = ceilTime.ToString();
+                        if (ceilTime != lastBeepSecond)
+                        {
+                            lastBeepSecond = ceilTime;
+                            if (audioSource != null && beepSound != null)
+                            {
+                                audioSource.PlayOneShot(beepSound);
+                            }
+                        }
                     }
                 }
             }
@@ -142,6 +163,10 @@ public class LevelTimer : NetworkBehaviour
                 countdownText.text = "START!";
                 Invoke(nameof(HideAllUI), 1f);
             }
+            if (audioSource != null && startSound != null)
+            {
+                audioSource.PlayOneShot(startSound);
+            }
         }
     }
 
@@ -151,8 +176,24 @@ public class LevelTimer : NetworkBehaviour
         if (waitingText != null) waitingText.gameObject.SetActive(false);
     }
 
+    public void ShowResults(int correctOrders, int missedOrders, int coins, int stars, int levelNumber)
+    {
+        if (!IsServer) return;
+        ShowResultsClientRpc(correctOrders, missedOrders, coins, stars, levelNumber);
+    }
+
+    [ClientRpc]
+    private void ShowResultsClientRpc(int correctOrders, int missedOrders, int coins, int stars, int levelNumber)
+    {
+        if (LevelEndUI.Instance != null)
+            LevelEndUI.Instance.ShowResults(correctOrders, missedOrders, coins, stars, levelNumber);
+    }
+
     private void TimeUp()
     {
+        if (!IsServer) return;
+
+        LevelProgressManager.FinishCurrentLevel();
         isPlaying.Value = false;
     }
 }

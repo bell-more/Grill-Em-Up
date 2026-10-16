@@ -4,20 +4,21 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class ChefInteraction : NetworkBehaviour
 {
-    public AttachableNode handNode;
+    [SerializeField] private AttachableNode handNode;
 
     private AttachableBehaviour heldItem = null;
     private NetworkObject heldNetObj = null;
 
     [Header("Interaction config")]
-    public float interactRadius = 1.5f;
-    public float maxInteractAngle = 60f;
+    [SerializeField] private float interactRadius = 1.5f;
+    [SerializeField] private float maxInteractAngle = 60f;
 
     [Header("Cutting config")]
-    public float chopInterval = 0.25f;
+    [SerializeField] private float chopInterval = 0.25f;
     private float chopTimer = 0f;
 
     void Update()
@@ -195,6 +196,7 @@ public class ChefInteraction : NetworkBehaviour
                     }
                     else
                     {
+                        DropObjectOnFloor(handPos, handRot);
                         Debug.Log("Table occupied");
                     }
                 }

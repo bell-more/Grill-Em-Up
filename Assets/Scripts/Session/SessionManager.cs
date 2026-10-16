@@ -12,8 +12,9 @@ public class SessionManager : MonoBehaviour
 {
     public static SessionManager Instance { get; private set; }
     public MainMenu MainMenuRef { get; set; }
-
+    public static bool showConnectionLostOnLoad = false;
     private NetworkManager NetManager => NetworkManager.Singleton;
+    private bool isLeavingIntentionally = false;
     private ISession session;
 
     public event Action OnSessionChange;
@@ -169,6 +170,7 @@ public class SessionManager : MonoBehaviour
         OnSessionChange?.Invoke();
 
         if (session == null) return;
+        if (SceneManager.GetActiveScene().buildIndex != 0) return;
 
         int readyCount = 0;
         int totalPlayers = session.Players.Count;
@@ -209,15 +211,8 @@ public class SessionManager : MonoBehaviour
 
     private void Session_Deleted()
     {
-        session = null;
-        isStartingGame = false;
-
-        if (NetManager != null && NetManager.IsListening)
-        {
-            NetManager.Shutdown();
-        }
-
-        MainMenuRef?.ConnectionLostPanel();
+        if (isLeavingIntentionally) return;
+        ReturnToMainMenu();
     }
     public async Task LeaveSessionAsync()
     {
@@ -225,6 +220,8 @@ public class SessionManager : MonoBehaviour
         {
             try
             {
+                isLeavingIntentionally = true;
+                DeSuscribeEvents();
                 if (session.IsHost)
                 {
                     var hostSession = session.AsHost();
@@ -234,13 +231,13 @@ public class SessionManager : MonoBehaviour
                 {
                     await session.LeaveAsync();
                 }
-                
+
                 session = null;
                 isStartingGame = false;
 
-                if (NetManager != null && NetManager.IsListening)
+                if (SceneManager.GetActiveScene().buildIndex != 0)
                 {
-                    NetManager.Shutdown();
+                    SceneManager.LoadScene(0);
                 }
 
                 Debug.Log("Disconnected");
@@ -249,9 +246,16 @@ public class SessionManager : MonoBehaviour
             {
                 Debug.LogException(e);
             }
+            finally
+            {
+                Invoke(nameof(ResetLeavingFlag), 1f);
+            }
         }
     }
-
+    private void ResetLeavingFlag()
+    {
+        isLeavingIntentionally = false;
+    }
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
         if (clientId == NetworkManager.ServerClientId)
@@ -266,9 +270,34 @@ public class SessionManager : MonoBehaviour
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
-        Debug.Log($"Client Disconnected: {clientId}");
+        if (isLeavingIntentionally) return;
+
+        if (clientId == NetworkManager.ServerClientId)
+        {
+            Debug.Log("Host cerrado o conexión perdida.");
+            ReturnToMainMenu();
+        }
+        else
+        {
+            Debug.Log($"Client Disconnected: {clientId}");
+        }
     }
 
+    private void ReturnToMainMenu()
+    {
+        session = null;
+        isStartingGame = false;
+
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            showConnectionLostOnLoad = true;
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            MainMenuRef?.ConnectionLostPanel();
+        }
+    }
     private void NetworkManager_OnServerStarted() { }
     private void NetworkManager_OnServerStopped(bool didTimeout) { }
 
