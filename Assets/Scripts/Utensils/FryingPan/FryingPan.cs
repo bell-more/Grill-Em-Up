@@ -1,30 +1,21 @@
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 
-public class FryingPan : NetworkBehaviour
+public class FryingPan : Counter
 {
-    [Header("Pan settings")]
-    public Transform placePoint;
+    public float timeToCook = 10f;
+    public float timeToBurn = 20f;
 
-    [Header("Cooking times")]
-    public float timeToCook = 20f;
-    public float timeToBurn = 30f;
-
-    [Header("Audio")]
+    //audio
     public AudioSource audioSource;
     public AudioClip fryingSound;
 
-    private NetworkObject ingredientInside;
-
-    // Esta variable sincroniza el sonido en la red para todos los jugadores
     public NetworkVariable<bool> isFrying = new NetworkVariable<bool>(false);
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        // Cuando isFrying cambia, prendemos o apagamos el sonido
         isFrying.OnValueChanged += (oldVal, newVal) =>
         {
             if (newVal && audioSource != null && fryingSound != null)
@@ -40,74 +31,44 @@ public class FryingPan : NetworkBehaviour
         };
     }
 
-    public bool TryAddIngredient(NetworkObject ingredient)
+    private void Update()
     {
-        if (ingredientInside != null) return false;
-        if (ingredient.TryGetComponent<IngredientVisuals>(out var visuals) && !visuals.canBeFried) return false;
+        if (!IsServer || !HasItem()) return;
 
-        ingredientInside = ingredient;
-
-        if (ingredient.TryGetComponent<Rigidbody>(out var rb)) rb.isKinematic = true;
-
-        ingredient.TrySetParent(placePoint, false);
-        ingredient.transform.position = placePoint.position;
-        ingredient.transform.rotation = placePoint.rotation;
-
-        if (ingredient.TryGetComponent<NetworkTransform>(out var netTransform))
+        if (heldItem.TryGetComponent<IngredientVisuals>(out var visuals))
         {
-            netTransform.Teleport(placePoint.position, placePoint.rotation, ingredient.transform.localScale);
-        }
+            if (visuals.currentStage.Value >= 2) return;
 
-        // Avisamos a la red que la sartén está friendo (arranca el sonido)
-        if (IsServer) isFrying.Value = true;
+            visuals.currentCookingTime.Value += Time.deltaTime;
 
-        // ¡YA NO PONEMOS EL TIEMPO EN CERO! La hamburguesa mantiene su progreso.
-        return true;
-    }
-
-    public NetworkObject ExtractIngredient()
-    {
-        if (ingredientInside == null) return null;
-
-        NetworkObject extracted = ingredientInside;
-        ingredientInside = null;
-
-        // Avisamos a la red que la sartén está vacía (corta el sonido)
-        if (IsServer) isFrying.Value = false;
-
-        extracted.TryRemoveParent();
-
-        if (extracted.TryGetComponent<Rigidbody>(out var rb))
-            rb.isKinematic = false;
-
-        return extracted;
-    }
-
-    public void Cook(float deltaTime)
-    {
-        if (!IsServer || ingredientInside == null) return;
-
-        if (ingredientInside.TryGetComponent<IngredientVisuals>(out var visuals))
-        {
-            if (visuals.currentStage.Value >= 2) return; // Si ya se quemó, deja de cocinar
-
-            // Le sumamos el tiempo AL INGREDIENTE, no a la sartén
-            visuals.currentCookingTime.Value += deltaTime;
-
-            // Evaluamos usando la memoria de la hamburguesa
             if (visuals.currentStage.Value == 0 && visuals.currentCookingTime.Value >= timeToCook)
             {
-                visuals.currentStage.Value = 1; // Cocinado
+                visuals.currentStage.Value = 1;
             }
             else if (visuals.currentStage.Value == 1 && visuals.currentCookingTime.Value >= timeToBurn)
             {
-                visuals.currentStage.Value = 2; // Quemado
+                visuals.currentStage.Value = 2;
             }
         }
     }
 
-    public bool HasIngredient()
+    public override bool AcceptsItem(NetworkObject item)
     {
-        return ingredientInside != null;
+        if (item.TryGetComponent<Plate>(out _)) return false;
+        if (item.TryGetComponent<IngredientVisuals>(out var visuals) && !visuals.canBeFried) return false;
+
+        return true;
+    }
+
+    public override void PlaceItem(NetworkObject item)
+    {
+        base.PlaceItem(item);
+        if (IsServer) isFrying.Value = true;
+    }
+
+    public override void ClearItem()
+    {
+        base.ClearItem(); 
+        if (IsServer) isFrying.Value = false;
     }
 }

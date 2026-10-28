@@ -3,11 +3,9 @@ using UnityEngine.UI;
 
 public class OrderTicketUI : MonoBehaviour
 {
-    public Image recipeIconDisplay;
-
-    [Header("Patience Bar")]
-    public Slider patienceSlider;
-    public Image sliderFillImage;
+    [SerializeField] private Image recipeIconDisplay;
+    [SerializeField] private Slider patienceSlider;
+    [SerializeField] private Image sliderFillImage;
 
     private float totalDuration;
     private float currentTimer;

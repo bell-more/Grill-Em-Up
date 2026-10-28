@@ -7,19 +7,15 @@ using UnityEngine.SceneManagement;
 public class LevelTimer : NetworkBehaviour
 {
     public static LevelTimer Instance { get; private set; }
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text countdownText;
+    [SerializeField] private TMP_Text waitingText;
 
-    [Header("UI")]
-    public TMP_Text timerText;
-    public TMP_Text countdownText;
-    public TMP_Text waitingText;
-
-    [Header("Level config")]
-    public float durationInMinutes = 4f;
-    public float countdownDuration = 3f;
+    [SerializeField] private float durationInMinutes = 4f;
+    [SerializeField] private float countdownDuration = 3f;
 
     private bool IsLevelWithoutTimer => SceneManager.GetActiveScene().name == "3.Level1";
 
-    [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip beepSound;
     [SerializeField] private AudioClip startSound;
@@ -113,7 +109,7 @@ public class LevelTimer : NetworkBehaviour
     {
         if (timerText != null)
         {
-            timerText.gameObject.SetActive(!IsLevelWithoutTimer);
+           // timerText.gameObject.SetActive(!IsLevelWithoutTimer);
 
             if (!IsLevelWithoutTimer)
             {
@@ -195,5 +191,13 @@ public class LevelTimer : NetworkBehaviour
 
         LevelProgressManager.FinishCurrentLevel();
         isPlaying.Value = false;
+    }
+
+    [ClientRpc]
+    public void FreezeGameClientRpc()
+    {
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

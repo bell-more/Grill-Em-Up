@@ -51,19 +51,15 @@ public class VolumeSettingManager : MonoBehaviour
     private void LoadVolume()
     {
         currentMusicVolume = PlayerPrefs.GetFloat("MusicVolume", -38f);
-        currentRainVolume = PlayerPrefs.GetFloat("RainVolume", -25f);
         currentSFXVolume = PlayerPrefs.GetFloat("SFXVolume", -10f);
         currentUIVolume = PlayerPrefs.GetFloat("UIVolume", -14f);
-        currentVoiceVolume = PlayerPrefs.GetFloat("VoiceVolume", -4f);
     }
 
     private void ApplyVolume()
     {
         mainMixer.SetFloat("MusicVolume", ConvertVolume(currentMusicVolume));
-        mainMixer.SetFloat("RainVolume", ConvertVolume(currentRainVolume));
         mainMixer.SetFloat("SFXVolume", ConvertVolume(currentSFXVolume));
         mainMixer.SetFloat("UIVolume", ConvertVolume(currentUIVolume));
-        mainMixer.SetFloat("VoiceVolume", ConvertVolume(currentVoiceVolume));
     }
 
     public void SetVolume(float volume, string name)

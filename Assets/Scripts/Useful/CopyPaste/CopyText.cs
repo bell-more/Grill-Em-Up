@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 
 public class CopyText : MonoBehaviour
 {
-    [Header("References")]
     [SerializeField] private TextMeshProUGUI roomCodeText;
 
     public void CopyTextToClipboard()

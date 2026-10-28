@@ -76,7 +76,7 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    public async Task InitializeLobbyAsync(string hostName = default, int maxPlayers = 4, bool isPrivate = false, MatchType matchType = MatchType.CookingCoop)
+    public async Task InitializeLobbyAsync(string hostName = default, int maxPlayers = 4, bool isPrivate = true, MatchType matchType = MatchType.CookingCoop)
     {
         try
         {
@@ -198,11 +198,12 @@ public class SessionManager : MonoBehaviour
                     await hostSession.SavePropertiesAsync();
 
                     await hostSession.Network.StartRelayNetworkAsync(new RelayNetworkOptions());
-                    NetManager.SceneManager.LoadScene(GAME_SCENE, LoadSceneMode.Single);
+
+                    var status = NetManager.SceneManager.LoadScene(GAME_SCENE, LoadSceneMode.Single);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogException(e);
+                    Debug.Log("Error starting game "+e);
                     isStartingGame = false;
                 }
             }
@@ -221,6 +222,7 @@ public class SessionManager : MonoBehaviour
             try
             {
                 isLeavingIntentionally = true;
+                isStartingGame = false;
                 DeSuscribeEvents();
                 if (session.IsHost)
                 {
@@ -235,12 +237,15 @@ public class SessionManager : MonoBehaviour
                 session = null;
                 isStartingGame = false;
 
+                if (NetManager != null)
+                {
+                    NetManager.Shutdown();
+                }
+
                 if (SceneManager.GetActiveScene().buildIndex != 0)
                 {
                     SceneManager.LoadScene(0);
                 }
-
-                Debug.Log("Disconnected");
             }
             catch (Exception e)
             {
@@ -260,11 +265,11 @@ public class SessionManager : MonoBehaviour
     {
         if (clientId == NetworkManager.ServerClientId)
         {
-            Debug.Log("Host Connected");
+            Debug.Log("host Connected");
         }
         else
         {
-            Debug.Log("Client Connected");
+            Debug.Log("client Connected");
         }
     }
 
@@ -274,12 +279,7 @@ public class SessionManager : MonoBehaviour
 
         if (clientId == NetworkManager.ServerClientId)
         {
-            Debug.Log("Host cerrado o conexión perdida.");
             ReturnToMainMenu();
-        }
-        else
-        {
-            Debug.Log($"Client Disconnected: {clientId}");
         }
     }
 
@@ -287,6 +287,11 @@ public class SessionManager : MonoBehaviour
     {
         session = null;
         isStartingGame = false;
+
+        if (NetManager != null)
+        {
+            NetManager.Shutdown();
+        }
 
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {

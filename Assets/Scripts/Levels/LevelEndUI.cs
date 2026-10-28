@@ -1,4 +1,3 @@
-
 using Unity.Netcode;
 using TMPro;
 using UnityEngine;
@@ -8,24 +7,21 @@ using UnityEngine.UI;
 public class LevelEndUI : MonoBehaviour
 {
     public static LevelEndUI Instance { get; private set; }
+    [SerializeField] private GameObject endPanel;
 
-    [Header("Panel")]
-    public GameObject endPanel;
+    //stars
+    [SerializeField] private Image[] starImages;
+    [SerializeField] private Sprite activeStarSprite;
+    [SerializeField] private Sprite inactiveStarSprite;
 
-    [Header("Stars")]
-    public Image[] starImages;
-    public Sprite activeStarSprite;
-    public Sprite inactiveStarSprite;
+    [SerializeField] private TMP_Text correctOrdersText;
+    [SerializeField] private TMP_Text missedOrdersText;
+    [SerializeField] private TMP_Text totalCoinsText;
 
-    [Header("Results")]
-    public TMP_Text correctOrdersText;
-    public TMP_Text missedOrdersText;
-    public TMP_Text totalCoinsText;
-
-    [Header("Buttons")]
-    public GameObject hostButtons;
-    public GameObject nextLevelButton;
-    public string levelSelectScene = "LevelSelector";
+    //buttons
+    [SerializeField] private GameObject hostButtons;
+    [SerializeField] private GameObject nextLevelButton;
+    [SerializeField] private string levelSelectScene = "2.LevelSelector";
 
     private int currentLevel;
 
@@ -106,7 +102,6 @@ public class LevelEndUI : MonoBehaviour
 
         if (!Application.CanStreamedLevelBeLoaded(sceneName))
         {
-            Debug.LogError("No se puede cargar la escena: " + sceneName);
             return;
         }
 

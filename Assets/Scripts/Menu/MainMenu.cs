@@ -5,54 +5,69 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [Header("Panels")]
+    //panels
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject loadingGamePanel;
     [SerializeField] private GameObject joinGamePanel;
     [SerializeField] private GameObject createGamePanel;
+    [SerializeField] private GameObject saveSlotsPanel;
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject connectionLostPanel;
 
-    [Header("Error texts")]
-    [SerializeField]private TextMeshProUGUI errorText;
-
-    [Header("UGS")]
+    //
+    [SerializeField] private TextMeshProUGUI errorText;
     [SerializeField] private TMP_InputField joinCodeInput;
-
-    [Header("Audio")]
     [SerializeField] private AudioMixerSnapshot audioMixerSnapshot;
 
     private void Awake()
     {
         if (SessionManager.Instance != null)
-        {
             SessionManager.Instance.MainMenuRef = this;
-        }
+
         if (SessionManager.showConnectionLostOnLoad)
         {
             SessionManager.showConnectionLostOnLoad = false;
             ConnectionLostPanel();
         }
     }
-
-    public async void CreateGame()
+    private void Start()
     {
-        if (mainMenuPanel!= null) mainMenuPanel.SetActive(false);
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void CreateGame()
+    {
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (joinGamePanel != null) joinGamePanel.SetActive(false);
+        if (createGamePanel != null) createGamePanel.SetActive(false);
+        if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+        if (saveSlotsPanel != null) saveSlotsPanel.SetActive(true);
+    }
+
+    public async void StartSelectedSave()
+    {
+        if (SaveGameManager.Instance == null || SaveGameManager.Instance.CurrentSave == null) return;
+
+        if (saveSlotsPanel != null) saveSlotsPanel.SetActive(false);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
 
-        string playerName = "";
-
-        if (SessionManager.Instance != null)
+        if (SessionManager.Instance == null)
         {
-            await SessionManager.Instance.InitializeLobbyAsync(playerName, 4, false, MatchType.CookingCoop);
+            if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+            if (saveSlotsPanel != null) saveSlotsPanel.SetActive(true);
+
+            return;
         }
+
+        await SessionManager.Instance.InitializeLobbyAsync("",4,true, MatchType.CookingCoop);
     }
 
     public async void JoinGame()
     {
-        string joinCode = joinCodeInput != null ? joinCodeInput.text : "";
+        string joinCode = joinCodeInput != null ? joinCodeInput.text.Trim() : "";
         string playerName = "";
 
         if (!string.IsNullOrEmpty(joinCode) && joinCode.Length == 6 && SessionManager.Instance != null)
@@ -65,7 +80,6 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Wrong code");
             JoinError();
         }
     }
@@ -74,19 +88,23 @@ public class MainMenu : MonoBehaviour
     {
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+        if (saveSlotsPanel != null) saveSlotsPanel.SetActive(false);
         if (joinGamePanel != null) joinGamePanel.SetActive(false);
         if (createGamePanel != null) createGamePanel.SetActive(true);
     }
 
     public void Play()
     {
-        TransitionTo(audioMixerSnapshot);
+        if (audioMixerSnapshot != null) TransitionTo(audioMixerSnapshot);
+
         Invoke(nameof(disableMainMenu), 1f);
+
         if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
-        Invoke(nameof(LoadScene),3f);
+
+        Invoke(nameof(LoadScene), 3f);
     }
 
-    void TransitionTo(AudioMixerSnapshot snap, float fade = 1f)
+    private void TransitionTo(AudioMixerSnapshot snap, float fade = 1f)
     {
         snap.TransitionTo(fade);
     }
@@ -128,10 +146,7 @@ public class MainMenu : MonoBehaviour
         if (joinGamePanel != null) joinGamePanel.SetActive(true);
         if (errorText != null) errorText.gameObject.SetActive(true);
 
-        if (UnityEngine.EventSystems.EventSystem.current != null)
-        {
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-        }
+        if (UnityEngine.EventSystems.EventSystem.current != null) UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
 
         CancelInvoke(nameof(HideErrorText));
         Invoke(nameof(HideErrorText), 3f);
@@ -139,23 +154,21 @@ public class MainMenu : MonoBehaviour
 
     public void ShowLoadingScreen()
     {
-
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
-        if (createGamePanel != null) createGamePanel.SetActive(false); 
+        if (createGamePanel != null) createGamePanel.SetActive(false);
+        if (saveSlotsPanel != null) saveSlotsPanel.SetActive(false);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(true);
     }
 
     private void HideErrorText()
     {
-        if (errorText != null) errorText.gameObject.SetActive(false); ;
+        if (errorText != null) errorText.gameObject.SetActive(false);
     }
 
     public async void ClosePanel()
     {
         if (SessionManager.Instance != null && SessionManager.Instance.GetSession() != null)
-        {
             await SessionManager.Instance.LeaveSessionAsync();
-        }
 
         if (infoPanel != null) infoPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
@@ -163,6 +176,7 @@ public class MainMenu : MonoBehaviour
         if (createGamePanel != null) createGamePanel.SetActive(false);
         if (connectionLostPanel != null) connectionLostPanel.SetActive(false);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
+        if (saveSlotsPanel != null) saveSlotsPanel.SetActive(false);
 
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
     }
@@ -170,6 +184,7 @@ public class MainMenu : MonoBehaviour
     public void ConnectionLostPanel()
     {
         if (createGamePanel != null) createGamePanel.SetActive(false);
+        if (saveSlotsPanel != null) saveSlotsPanel.SetActive(false);
         if (loadingGamePanel != null) loadingGamePanel.SetActive(false);
         if (connectionLostPanel != null) connectionLostPanel.SetActive(true);
     }

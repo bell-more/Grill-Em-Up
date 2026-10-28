@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class Counter : NetworkBehaviour
 {
-    [Header("Settings")]
-    public Transform placePoint;
-
+    [SerializeField] private Transform placePoint;
     protected NetworkObject heldItem = null;
-
     public bool HasItem()
     {
         return heldItem != null;

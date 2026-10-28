@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("Panels")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject settingsPanel;
 
@@ -14,11 +14,13 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame)
         {
             if (isPaused)
             {
@@ -56,7 +58,7 @@ public class MenuManager : MonoBehaviour
         isPaused = true;
         pausePanel.SetActive(true);
     }
-  
+
     public void SettingsMenu()
     {
         settingsPanel.SetActive(true);
@@ -70,11 +72,21 @@ public class MenuManager : MonoBehaviour
     public void NextLevel()
     {
         Time.timeScale = 1;
-        SceneManager.LoadSceneAsync((SceneManager.GetActiveScene().buildIndex)+1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
-    public void MainMenu()
+
+
+
+    public async void MainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(0);
+        if (SessionManager.Instance != null && SessionManager.Instance.GetSession() != null)
+        {
+            await SessionManager.Instance.LeaveSessionAsync();
+            return;
+        }
+        await SceneManager.LoadSceneAsync(0);
     }
+
+
 }

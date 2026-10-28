@@ -4,12 +4,9 @@ using System.Collections.Generic;
 
 public class PlateHolder : NetworkBehaviour
 {
-    [Header("Plate config")]
-    public GameObject platePrefab;
-    public int maxPlates = 5;
-
-    [Header("Visuals")]
-    public List<GameObject> visualPlatesInStack;
+    [SerializeField] private GameObject platePrefab;
+    [SerializeField] private int maxPlates = 5;
+    [SerializeField] private List<GameObject> visualPlatesInStack;
 
     private NetworkVariable<int> currentPlates = new NetworkVariable<int>(
         value: 5,
@@ -33,6 +30,18 @@ public class PlateHolder : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         currentPlates.OnValueChanged -= UpdateVisualStack;
+
+        if (!IsServer) return;
+
+        foreach (ulong plateId in dispensedPlates)
+        {
+            if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(plateId, out NetworkObject plate))
+            {
+                if (plate != null && plate.IsSpawned) plate.Despawn(true);
+            }
+        }
+
+        dispensedPlates.Clear();
     }
 
     public NetworkObject GrabPlate(Vector3 spawnPos, Quaternion spawnRot)

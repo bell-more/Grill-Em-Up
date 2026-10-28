@@ -152,8 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FryingPan
   ShowTopMostFoldoutHeaderGroup: 1
   placePoint: {fileID: 9200208993833076614}
-  timeToCook: 20
-  timeToBurn: 30
+  timeToCook: 10
+  timeToBurn: 20
   audioSource: {fileID: 1885612254013984215}
   fryingSound: {fileID: 8300000, guid: 2155298fe27433d419bf4c08478f6ba1, type: 3}
   isFrying:
@@ -218,7 +218,7 @@ AudioSource:
   m_GameObject: {fileID: 1448292569020906623}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9039668863421398431, guid: 09a1fb54028bce74193e4dbb053f1b6b, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -332,13 +332,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6532815, y: 0.27059805, z: 0.27059805, w: 0.6532815}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 90, y: 90, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
-  m_LocalEulerAnglesHint: {x: -90, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!33 &8325443283631197275
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -346,7 +346,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
-  m_Mesh: {fileID: 4693503658899706963, guid: 944b77401af740d4cb2dc3894f141adf, type: 3}
+  m_Mesh: {fileID: 4693503658899706963, guid: b1e69e303543c3c4e99f04b0d3e623bd, type: 3}
 --- !u!23 &6269931587104892624
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -420,10 +420,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6359405146248550130}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6532815, y: -0.27059805, z: -0.27059805, w: 0.6532815}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.0005755556}
-  m_LocalScale: {x: 0.01111111, y: 0.0111111095, z: 0.01111111}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7933632573827849029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -454,14 +454,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6532815, y: 0.27059805, z: 0.27059805, w: 0.6532815}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 90, y: 90, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9200208993833076614}
   m_Father: {fileID: 3717746772625346649}
-  m_LocalEulerAnglesHint: {x: -90, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!33 &6464415200248665312
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -469,7 +469,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
-  m_Mesh: {fileID: 4693503658899706963, guid: 944b77401af740d4cb2dc3894f141adf, type: 3}
+  m_Mesh: {fileID: 4693503658899706963, guid: b1e69e303543c3c4e99f04b0d3e623bd, type: 3}
 --- !u!23 &9102548997614460970
 MeshRenderer:
   m_ObjectHideFlags: 0

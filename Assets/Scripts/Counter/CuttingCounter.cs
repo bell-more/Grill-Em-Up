@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class CuttingCounter : Counter
 {
-    [Header("Audio Settings")]
-    public AudioClip chopSound;
+    [SerializeField] private AudioClip chopSound;
     private AudioSource audioSource;
 
     public override void OnNetworkSpawn()
@@ -27,7 +26,6 @@ public class CuttingCounter : Counter
         {
             if (!visuals.canBeChopped)
             {
-                Debug.Log("This ingredient can't be chopped");
                 return;
             }
 

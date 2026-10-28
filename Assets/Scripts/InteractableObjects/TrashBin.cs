@@ -1,10 +1,9 @@
-
 using Unity.Netcode;
 using UnityEngine;
 
 public class TrashBin : NetworkBehaviour
 {
-    public PlateHolder plateHolder;
+    [SerializeField] private PlateHolder plateHolder;
 
     public bool CanAccept(NetworkObject item)
     {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 169534893428863526}
   - component: {fileID: 1720595791487198849}
   - component: {fileID: 6429864307214106035}
+  - component: {fileID: -6867199093934386734}
   - component: {fileID: 5659860583197948448}
   - component: {fileID: 874095409934961754}
   - component: {fileID: 7283858332738780489}
@@ -107,9 +108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
   ShowTopMostFoldoutHeaderGroup: 1
-  wholeMesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
-  intermediateMesh: {fileID: 8183966572487801318, guid: 1ddb8737499c66445a874be131c85854, type: 3}
-  choppedMesh: {fileID: 5897541620420230933, guid: 3b3e19103c5622d428590380c3286a38, type: 3}
+  wholeMesh: {fileID: -5321038836818693795, guid: d40f8d3b2a2e50542861d1d77dab4640, type: 3}
+  intermediateMesh: {fileID: 8183966572487801318, guid: ce2142f57ef81b4428a67018961d78dc, type: 3}
+  choppedMesh: {fileID: 5897541620420230933, guid: 55e0a8d7b9b2ba247a0aaa13931bc710, type: 3}
   chopsForIntermediate: 2
   chopsForFinal: 3
   canBeChopped: 1
@@ -175,6 +176,23 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-6867199093934386734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!114 &5659860583197948448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientThickness
   thickness: 0.045
-  scaleOnPlate: {x: 1.2, y: 1.2, z: 1.2}
 --- !u!65 &7283858332738780489
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -229,12 +246,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.47, y: 0.41, z: 0.45}
-  m_Center: {x: 0, y: 0.24, z: 0}
+  m_Size: {x: 0.47, y: 0.47, z: 0.45}
+  m_Center: {x: 0, y: 0.27, z: 0}
 --- !u!1 &1890531462352268279
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,13 +278,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 85, y: 85, z: 85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8325443283631197275
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -275,7 +292,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
-  m_Mesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
+  m_Mesh: {fileID: -5321038836818693795, guid: d40f8d3b2a2e50542861d1d77dab4640, type: 3}
 --- !u!23 &6269931587104892624
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -352,13 +369,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 85, y: 85, z: 85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6464415200248665312
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -366,7 +383,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
-  m_Mesh: {fileID: -5321038836818693795, guid: 9fd153f538d690944be68d5f63139f53, type: 3}
+  m_Mesh: {fileID: -5321038836818693795, guid: d40f8d3b2a2e50542861d1d77dab4640, type: 3}
 --- !u!23 &9102548997614460970
 MeshRenderer:
   m_ObjectHideFlags: 0

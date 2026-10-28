@@ -130,6 +130,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   placePoint: {fileID: 2044205101509920650}
   orderManager: {fileID: 0}
+  plateHolder: {fileID: 0}
 --- !u!1 &6017462548470404045
 GameObject:
   m_ObjectHideFlags: 0

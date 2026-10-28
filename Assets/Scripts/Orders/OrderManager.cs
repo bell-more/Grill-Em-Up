@@ -1,34 +1,34 @@
-using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class OrderManager : NetworkBehaviour
 {
+    public static OrderManager Instance { get; private set; }
     public NetworkList<int> activeOrders;
 
-    [Header("Orders Config")]
-    public float initialSpawnDelay = 5f;
-    public float timeBetweenOrders = 10f;
-    public int maxActiveOrders = 5;
-    public float orderPatienceTime = 50f;
-    public Recipe[] availableRecipes;
+    //order
+    [SerializeField] private float initialSpawnDelay = 5f;
+    [SerializeField] private float timeBetweenOrders = 10f;
+    [SerializeField] private int maxActiveOrders = 5;
+    [SerializeField] private float orderPatienceTime = 50f;
+    [SerializeField] private Recipe[] availableRecipes;
 
-    [Header("Coins")]
-    public int coinsPerSuccess = 50;
-    public int coinsPenaltyWrong = 15;
-    public int coinsPenaltyExpired = 20;
+    //coins
+    [SerializeField] private int coinsPerSuccess = 50;
+    [SerializeField] private int coinsPenaltyWrong = 15;
+    [SerializeField] private int coinsPenaltyExpired = 20;
 
-    [Header("UI References")]
-    public Transform ordersContainer;
-    public GameObject orderTicketPrefab;
+    //
+    [SerializeField] private Transform ordersContainer;
+    [SerializeField] private GameObject orderTicketPrefab;
 
-    [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip newOrderSound;
-    public AudioClip successSound;
-    public AudioClip orderExpiredSound;
-    public AudioClip wrongOrderSound;
+    //audio
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip newOrderSound;
+    [SerializeField] private AudioClip successSound;
+    [SerializeField] private AudioClip orderExpiredSound;
+    [SerializeField] private AudioClip wrongOrderSound;
 
     private float spawnTimer;
 
@@ -37,6 +37,14 @@ public class OrderManager : NetworkBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         activeOrders = new NetworkList<int>();
     }
 
@@ -59,6 +67,9 @@ public class OrderManager : NetworkBehaviour
     {
         activeOrders.OnListChanged -= HandleOrdersChanged;
         ClearAllTicketsUI();
+
+        if (Instance == this)
+            Instance = null;
     }
 
     private void Update()
@@ -77,18 +88,15 @@ public class OrderManager : NetworkBehaviour
             }
         }
 
-        for (int i = orderTimers.Count - 1; i >= 0; i--)
+        for (int i = Mathf.Min(orderTimers.Count, activeOrders.Count) - 1; i >= 0; i--)
         {
             orderTimers[i] -= Time.deltaTime;
 
             if (orderTimers[i] <= 0f)
             {
-                Debug.Log("missed order");
                 LevelProgressManager.RegisterMissedOrder();
                 PlayResolutionSoundClientRpc(1);
-
                 if (CoinManager.Instance != null) CoinManager.Instance.RemoveCoins(coinsPenaltyExpired);
-
                 activeOrders.RemoveAt(i);
                 orderTimers.RemoveAt(i);
             }
@@ -162,31 +170,28 @@ public class OrderManager : NetworkBehaviour
 
     public void SubmitOrder(List<string> submittedIngredients)
     {
-        if (!IsServer) return;
+        if (!IsServer || submittedIngredients == null) return;
 
         for (int i = 0; i < activeOrders.Count; i++)
         {
             int recipeIndex = activeOrders[i];
+            if (availableRecipes == null || recipeIndex < 0 || recipeIndex >= availableRecipes.Length) continue;
+
             Recipe recipe = availableRecipes[recipeIndex];
+            if (!AreIngredientsMatching(submittedIngredients, recipe.requiredIngredients)) continue;
 
-            if (AreIngredientsMatching(submittedIngredients, recipe.requiredIngredients))
-            {
-                Debug.Log("Completed order: " + recipe.recipeName);
-                PlayResolutionSoundClientRpc(0);
+            if (i >= activeOrders.Count) return;
+            activeOrders.RemoveAt(i);
 
-                if (CoinManager.Instance != null) CoinManager.Instance.AddCoins(coinsPerSuccess);
-                LevelProgressManager.RegisterSuccessfulOrder();
+            if (i < orderTimers.Count) orderTimers.RemoveAt(i);
 
-                activeOrders.RemoveAt(i);
-                if (i < orderTimers.Count) orderTimers.RemoveAt(i);
-
-                return;
-            }
+            PlayResolutionSoundClientRpc(0);
+            if (CoinManager.Instance != null) CoinManager.Instance.AddCoins(coinsPerSuccess);
+            LevelProgressManager.RegisterSuccessfulOrder();
+            return;
         }
 
-        Debug.Log("Wrong order");
         PlayResolutionSoundClientRpc(2);
-
         if (CoinManager.Instance != null) CoinManager.Instance.RemoveCoins(coinsPenaltyWrong);
     }
 
@@ -209,6 +214,15 @@ public class OrderManager : NetworkBehaviour
         }
 
         return tempRequired.Count == 0;
+    }
+
+    public void ClearOrders()
+    {
+        if (!IsServer) return;
+
+        activeOrders.Clear();
+        orderTimers.Clear();
+        spawnTimer = initialSpawnDelay;
     }
 
     [ClientRpc]

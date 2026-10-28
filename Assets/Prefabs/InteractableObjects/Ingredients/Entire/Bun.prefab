@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1021997891983524589}
   - component: {fileID: 169534893428863526}
   - component: {fileID: 6429864307214106035}
+  - component: {fileID: -6624235563704830062}
   - component: {fileID: 5659860583197948448}
   - component: {fileID: 2282369093401126297}
   m_Layer: 0
@@ -54,12 +55,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.53, y: 0.38, z: 0.54}
-  m_Center: {x: 0, y: 0.18, z: 0}
+  m_Center: {x: 0, y: 0.21, z: 0}
 --- !u!54 &1021997891983524589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -160,6 +161,23 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-6624235563704830062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448292569020906623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!114 &5659860583197948448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,9 +216,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientVisuals
   ShowTopMostFoldoutHeaderGroup: 1
-  wholeMesh: {fileID: 4755037694683280153, guid: 1d554e0ecc95acc4fa6d6c473490cdb0, type: 3}
-  intermediateMesh: {fileID: -1947637187042669421, guid: 6d7d06a86243308439c5f4d3ec1ce752, type: 3}
-  choppedMesh: {fileID: -1947637187042669421, guid: 6d7d06a86243308439c5f4d3ec1ce752, type: 3}
+  wholeMesh: {fileID: 4755037694683280153, guid: 2f9c783ce9dd11147ada1cc3535eece7, type: 3}
+  intermediateMesh: {fileID: -1947637187042669421, guid: aa9f629348e871e4fa5a2715e585ec8b, type: 3}
+  choppedMesh: {fileID: -3321087029127066147, guid: 619ac583119742148b0ce0d8c308f679, type: 3}
   chopsForIntermediate: 2
   chopsForFinal: 3
   canBeChopped: 0
@@ -246,13 +264,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8325443283631197275
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -260,7 +278,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890531462352268279}
-  m_Mesh: {fileID: 4755037694683280153, guid: 1d554e0ecc95acc4fa6d6c473490cdb0, type: 3}
+  m_Mesh: {fileID: 4755037694683280153, guid: 2f9c783ce9dd11147ada1cc3535eece7, type: 3}
 --- !u!23 &6269931587104892624
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -337,13 +355,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3717746772625346649}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6464415200248665312
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -351,7 +369,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300964355641328127}
-  m_Mesh: {fileID: 4755037694683280153, guid: 1d554e0ecc95acc4fa6d6c473490cdb0, type: 3}
+  m_Mesh: {fileID: 4755037694683280153, guid: 2f9c783ce9dd11147ada1cc3535eece7, type: 3}
 --- !u!23 &9102548997614460970
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -3,16 +3,13 @@ using UnityEngine;
 
 public class IngredientVisuals : NetworkBehaviour
 {
-    [Header("State meshes")]
     public Mesh wholeMesh;
     public Mesh intermediateMesh;
     public Mesh choppedMesh;
 
-    [Header("Cutting config")]
+    //cutting
     public int chopsForIntermediate = 2;
     public int chopsForFinal = 3;
-
-    [Header("Interaction settings")]
     public bool canBeChopped = true;
     public bool canBeFried = false;
     public NetworkVariable<int> currentStage = new NetworkVariable<int>(0);

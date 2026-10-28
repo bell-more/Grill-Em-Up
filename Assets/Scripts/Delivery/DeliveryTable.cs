@@ -6,8 +6,6 @@ using UnityEngine;
 public class DeliveryTable : Counter
 {
     [SerializeField] private OrderManager orderManager;
-
-    [Header("Plate holder")]
     [SerializeField] private PlateHolder plateHolder;
 
     public override bool AcceptsItem(NetworkObject item)
@@ -53,13 +51,13 @@ public class DeliveryTable : Counter
 
     private IEnumerator DestroyPlateAfterDelay(Plate plateScript, float delayTime)
     {
-        yield return new WaitForSeconds(delayTime);
+        yield return new WaitForSecondsRealtime(delayTime);
 
         if (plateScript != null)
         {
             NetworkObject plateNetworkObject = plateScript.GetComponent<NetworkObject>();
 
-            if (plateHolder != null)
+            if (plateHolder != null && plateNetworkObject != null)
             {
                 plateHolder.ReturnPlate(plateNetworkObject);
             }

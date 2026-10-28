@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1169367902
+  GlobalObjectIdHash: 4090844323
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -137,6 +137,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1948814526593248145}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 74760542e4c6e45438aed1bc50562cd8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 74760542e4c6e45438aed1bc50562cd8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 74760542e4c6e45438aed1bc50562cd8, type: 3}
       propertyPath: m_LocalScale.z
       value: 317.4

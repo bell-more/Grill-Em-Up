@@ -5,13 +5,9 @@ using TMPro;
 public class CoinManager : NetworkBehaviour
 {
     public static CoinManager Instance { get; private set; }
-
-    [Header("Interfaz (UI)")]
-    public TMP_Text coinText;
-
-    [Header("Configuración")]
-    public int startingCoins = 0;
-    public bool allowNegativeCoins = false; 
+    [SerializeField] private TMP_Text coinText;
+    [SerializeField] private int startingCoins = 0;
+    [SerializeField] private bool allowNegativeCoins = false; 
 
     private NetworkVariable<int> totalCoins = new NetworkVariable<int>(
         value: 0,
@@ -48,7 +44,6 @@ public class CoinManager : NetworkBehaviour
         if (IsServer)
         {
             totalCoins.Value += amount;
-            Debug.Log($"¡Pedido entregado! Monedas actuales: {totalCoins.Value}");
         }
     }
 
@@ -62,8 +57,6 @@ public class CoinManager : NetworkBehaviour
             {
                 totalCoins.Value = 0;
             }
-
-            Debug.Log($"¡Pedido perdido! Monedas actuales: {totalCoins.Value}");
         }
     }
 

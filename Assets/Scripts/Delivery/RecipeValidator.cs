@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class RecipeValidator : MonoBehaviour
 {
-    [Header("Scriptable Objects")]
-    public List<Recipe> availableRecipes;
+    [SerializeField] private List<Recipe> availableRecipes;
 
     public bool ValidateRecipe(GameObject bottomBun, List<GameObject> middleIngredients, GameObject topBun)
     {

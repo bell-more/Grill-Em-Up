@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class LevelSelectorManager : MonoBehaviour
 {
-    [Header("Host UI")]
-    public GameObject hostPanel;
+    [SerializeField] private GameObject hostPanel;
+    [SerializeField] private GameObject clientPanel;
 
-    [Header("Clients UI")]
-    public GameObject clientPanel;
-
+    private void Awake()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
     private void Start()
     {
         bool isHost = NetworkManager.Singleton != null && NetworkManager.Singleton.IsHost;
@@ -40,7 +43,7 @@ public class LevelSelectorManager : MonoBehaviour
         if (!NetworkManager.Singleton.IsServer)
             return;
 
-        if (!LevelProgressManager.IsLevelUnlocked(levelNumber))
+        if (levelNumber > 0 && !LevelProgressManager.IsLevelUnlocked(levelNumber))
         {
             return;
         }

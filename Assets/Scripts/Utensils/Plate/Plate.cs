@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -7,15 +6,10 @@ using UnityEngine;
 
 public class Plate : NetworkBehaviour
 {
-    [Header("Plate Settings")]
-    public float defaultThickness = 0.08f;
-
-    [Header("Bun Prefabs")]
-    public GameObject bottomBunPrefab;
-    public GameObject topBunPrefab;
-
-    [Header("Ingredient Attachment")]
-    public AttachableNode ingredientsNode;
+    [SerializeField] private float defaultThickness = 0.08f;
+    [SerializeField] private GameObject bottomBunPrefab;
+    [SerializeField] private GameObject topBunPrefab;
+    [SerializeField] private AttachableNode ingredientsNode;
 
     private NetworkObject bottomBunInstance;
     private NetworkObject topBunInstance;
@@ -59,6 +53,7 @@ public class Plate : NetworkBehaviour
         if (!IsServer || ingredient == null || visual == null) return false;
         FindIngredientsNode();
         if (ingredientsNode == null) return false;
+        if (ingredient.TryGetComponent<FryingPan>(out _)) return false;
 
         if (!ingredient.IsSpawned || !visual.IsSpawned || !ingredientsNode.IsSpawned)
         {
@@ -89,12 +84,19 @@ public class Plate : NetworkBehaviour
             {
                 return false;
             }
+
+            if (ingredientVisuals.canBeFried && ingredientVisuals.currentStage.Value != 1)
+            {
+                return false;
+            }
         }
 
         bool isBun = ingredient.name.Contains("Bun");
 
-        if (isBun && bottomBunInstance == null)
+        if (isBun)
         {
+            if (bottomBunInstance != null) return false;
+
             if (!IsValidBunPrefab(bottomBunPrefab) || !IsValidBunPrefab(topBunPrefab))
             {
                 return false;
@@ -117,6 +119,11 @@ public class Plate : NetworkBehaviour
             topBunInstance = newTop;
             UpdateAllPositions();
             return true;
+        }
+
+        if (middleIngredients.Count >= 7)
+        {
+            return false;
         }
 
         visual.Attach(ingredientsNode);
@@ -153,7 +160,7 @@ public class Plate : NetworkBehaviour
             return null;
         }
 
-        netObj.Spawn();
+        netObj.Spawn(true);
 
         if (!netObj.IsSpawned || !visual.IsSpawned || !ingredientsNode.IsSpawned)
         {
@@ -221,7 +228,7 @@ public class Plate : NetworkBehaviour
             return;
         }
 
-        Vector3 localPosition = new Vector3(0f, 0f, height);
+        Vector3 localPosition = new Vector3(0f, height, 0f);
         Quaternion localRotation = Quaternion.identity;
 
         visual.transform.localPosition = localPosition;
