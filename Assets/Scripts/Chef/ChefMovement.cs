@@ -148,4 +148,15 @@ public class ChefMovement : NetworkBehaviour
         bool idle = inputDirection == Vector3.zero && !isDashing;
         UpdateMovementAnimation(idle);
     }
+
+    [Rpc(SendTo.Owner)]
+    public void ForcePositionRpc(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+        if (rb != null)
+        {
+            rb.position = newPosition;
+            rb.linearVelocity = Vector3.zero;
+        }
+    }
 }

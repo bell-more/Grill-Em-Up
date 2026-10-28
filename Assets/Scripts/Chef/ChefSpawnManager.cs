@@ -74,6 +74,11 @@ public class ChefSpawnManager : MonoBehaviour
 
         assignedSpawnPoints.Add(clientId, spawnIndex);
         chef.SpawnAsPlayerObject(clientId, true);
+
+        if (chef.TryGetComponent(out ChefMovement movement))
+        {
+            movement.ForcePositionRpc(spawnPosition);
+        }
     }
 
     private void OnClientDisconnected(ulong clientId)
